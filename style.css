@@ -1,0 +1,73 @@
+/* ################################ */
+/* reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: 'K2D', sans-serif;
+  user-select: none;
+}
+
+.centerize {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+html {
+  height: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  height: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  position: relative;
+  background-color: #fff4ee;
+  width: 500px;
+  height: 700px;
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+div.scene, #cover-wrapper {
+  display: none;
+  position: absolute;
+  width: 500px;
+  height: 700px;
+  left: 0; top: 0;
+}
+
+.cover, .fullscreen {
+  height: 100%;
+}
+
+/* ################################ */
+/* preload scene */
+
+#scene-preload > div {
+  height: 100%;
+}
+
+#pane-loading {
+  font-size: 30px;
+  text-align: center;
+}
+
+/* ################################ */
+/* menu scene */
+
+
+/* ################################ */
+/* game scene */
+
+
