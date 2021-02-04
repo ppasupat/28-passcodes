@@ -51,12 +51,14 @@ $(function () {
   loadSettings();
 
   // ################################
-  // Game logic
+  // Menu
 
+  function setupMenu() {
+
+  }
 
   // ################################
-  // Main menu
-
+  // Puzzle
 
   // ################################
   // Preloading and screen resizing
@@ -78,6 +80,7 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
+    'img/emoji/heart.png',
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
