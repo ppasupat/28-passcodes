@@ -7,37 +7,36 @@ $(function () {
   // ################################
   // Utilities
 
-  function showScene(name) {
+  function showScene(name, noFade) {
+    if (!noFade) {
+      $('#cover-fade').show().removeClass('faded');
+    }
     $('.scene').hide();
     $('#scene-' + name).show();
-  }
-
-  function showCover(name) {
-    $('#cover-wrapper').show();
-    $('.cover').hide();
-    if (name) {
-      $('#cover-' + name).show();
+    if (!noFade) {
+      $('#cover-fade').addClass('faded');
     }
   }
 
-  function hideCover() {
-    $('#cover-wrapper').hide();
-  }
+  $('#cover-fade').on('transitionend', function () {
+    $(this).removeClass('faded').hide();
+  });
 
   // ################################
   // Persistence
 
-  const APP_NAME = 'secret-code-28';
+  const APP_NAME = 'secret-code-28',
+    DEFAULT_SETTINGS = JSON.stringify(
+      {completed: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]});
   let settings = {};
 
   function loadSettings() {
     let settings_raw = localStorage.getItem(APP_NAME);
     if (settings_raw === null) {
-      // TODO: Change this
-      settings = {hard_mode: 0};
-    } else {
-      settings = JSON.parse(settings_raw);
+      settings_raw = DEFAULT_SETTINGS;
     }
+    settings = JSON.parse(settings_raw);
+    console.log(settings);
   }
 
   function saveSettings() {
@@ -48,17 +47,60 @@ $(function () {
     }
   }
 
+  function resetSettings() {
+    if (!window.confirm("Reset progress?")) return;
+    settings = JSON.parse(DEFAULT_SETTINGS);
+    saveSettings();
+    window.location.reload();
+  }
+
   loadSettings();
+
+  // ################################
+  // Puzzle utils
+
+  const PUZZLES = [];
+  let currentIdx = null;
+
+  function switchToPuzzle(idx) {
+    currentIdx = idx;
+    PUZZLES[currentIdx].init();
+    showScene('puzzle');
+  }
+
+  // ################################
+  // Actual puzzles
+
+  PUZZLES[4] = {
+    init: function () {
+
+    },
+  };
 
   // ################################
   // Menu
 
   function setupMenu() {
-
+    $('.poster').each(function (i, x) {
+      let idx = +$(x).data('idx');
+      $(x).toggleClass('completed', !!settings.completed[idx]);
+    });
   }
 
-  // ################################
-  // Puzzle
+  $('#reset-button').click(resetSettings);
+  $('.poster').click(function (e) {
+    let x = $(this), idx = +x.data('idx');
+    if (!!settings.completed[idx]) return;
+    if (PUZZLES[idx] === void 0) {
+      alert('Puzzle not here yet!');
+    } else {
+      switchToPuzzle(idx);
+    }
+  });
+
+  function onWinPuzzle() {
+
+  }
 
   // ################################
   // Preloading and screen resizing
@@ -102,6 +144,6 @@ $(function () {
     img.src = x;
     images.push(img);
   });
-  showScene('preload');
+  showScene('preload', true);
 
 });
