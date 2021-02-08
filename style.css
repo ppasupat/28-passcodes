@@ -183,3 +183,11 @@ div.scene, div.cover {
   width: 64px; height: 55px; line-height: 55px;
   font-size: 36px;
 }
+
+/* ################################ */
+/* actual puzzles */
+
+#puzzle-screen .fill-screen {
+  width: 100%;
+  height: 100%;
+}

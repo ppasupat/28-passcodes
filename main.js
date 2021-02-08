@@ -67,10 +67,17 @@ $(function () {
     showScene('puzzle');
   }
 
+  function winPuzzle() {
+    settings.completed[currentIdx] = 1;
+    saveSettings();
+    setupMenu();
+  }
+
   $('#back-button').click(setupMenu);
 
-  const ANS_DIVS = $('.answer-letter'),
-    KEY_ALPHS = $('.key.alph'),
+  const PUZZLE_SCREEN = $('#puzzle-screen'),
+    ANS_DIVS = $('.answer-letter'),
+    KEY_ALPHS = $('.key.alph'), ASCII_A = 65,
     KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 26,
     KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 27;
 
@@ -117,10 +124,17 @@ $(function () {
     let keyId = key.index(), answer = getAnswer(),
       firstBlankPos = getFirstBlankPos(answer);
     if (keyId === KEY_SUBMIT_ID) {
+      if (answer === PUZZLES[currentIdx].answer) {
+        // TODO: Replace with something less intrusive
+        alert('Correct!');
+        winPuzzle();
+      } else {
+        alert('Incorrect!');
+      }
     } else if (keyId === KEY_BKSP_ID) {
       setAnswer(firstBlankPos - 1, '_');
     } else {  // Alph
-      setAnswer(firstBlankPos, String.fromCharCode(65 + keyId));
+      setAnswer(firstBlankPos, String.fromCharCode(ASCII_A + keyId));
     }
   }
 
@@ -135,14 +149,18 @@ $(function () {
 
   PUZZLES[4] = {
     init: function () {
-
+      PUZZLE_SCREEN.append(
+        $('<div class=fill-screen>')
+        .css('background', 'url("img/mystery-animal.png")'));
     },
+    answer: 'AXOLOTL',
   };
 
   // ################################
   // Menu
 
   function setupMenu() {
+    PUZZLE_SCREEN.empty();    // Clear memory
     $('.poster').each(function (i, x) {
       let idx = +$(x).data('idx');
       $(x).toggleClass('completed', !!settings.completed[idx]);
@@ -199,7 +217,9 @@ $(function () {
     }
   }
 
-  let images = [];
+  let images = [
+    'img/mystery-animal.png',
+  ];
   imageList.forEach(function (x) {
     let img = new Image();
     img.onload = decrementPreload;
