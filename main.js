@@ -77,10 +77,24 @@ $(function () {
   function getAnswer() {
     let answer = '';
     ANS_DIVS.each(function () {
-      let t = $(this).text();
-      answer += (t.length ? t : '_');
+      answer += $(this).text() || '_';
     });
     return answer;
+  }
+
+  function getFirstBlankPos(answer) {
+    for (let i = 0; i < answer.length; i++) {
+      if (answer[i] === '_') return i;
+    }
+    return answer.length;
+  }
+
+  function setAnswer(pos, value) {
+    if (pos < 0 || pos >= 7 || value.length > 1) {
+      alert('ERROR: invalid setAnswer(' + pos + ', "' + value + '")');
+      return;
+    }
+    $(ANS_DIVS.get(pos)).text(value === '_' ? '' : value);
   }
 
   // Set the 'xxx' class on disabled keys
@@ -91,25 +105,27 @@ $(function () {
     let answer = getAnswer(),
       isEmpty = (answer === '_______'),
       isFilled = (answer.search('_') === -1);
-    console.log(answer, isEmpty, isFilled);
     KEY_BKSP.toggleClass('xxx', isEmpty);
     KEY_ALPHS.toggleClass('xxx', isFilled);
     KEY_SUBMIT.toggleClass('xxx', !isFilled);
   }
 
   function onKey(key) {
-    if (key.hasClass('xxx')) return;
     if (PUZZLES[currentIdx].onKey !== void 0) {
       if (PUZZLES[currentIdx].onKey(key)) return;
     }
-    let keyId = key.index();
+    let keyId = key.index(), answer = getAnswer(),
+      firstBlankPos = getFirstBlankPos(answer);
     if (keyId === KEY_SUBMIT_ID) {
     } else if (keyId === KEY_BKSP_ID) {
+      setAnswer(firstBlankPos - 1, '_');
     } else {  // Alph
+      setAnswer(firstBlankPos, String.fromCharCode(65 + keyId));
     }
   }
 
   $('.key').click(function (e) { 
+    if ($(this).hasClass('xxx')) return;
     onKey($(this));
     checkKeys();
   });
