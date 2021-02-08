@@ -31,8 +31,23 @@
         <button type=button id=reset-button>RESET</button>
       </div>
       <div id=scene-puzzle class=scene>
-      </div>
-      <div id=scene-win class=scene>
+        <div id=pane-puzzle-screen>
+          <div id=puzzle-screen></div>
+        </div>
+        <div id=pane-answer-row>
+          <button type=button id=back-button>BACK</button>
+          <div id=answer-box>
+            <div class=answer-letter data-pos=0></div>
+            <div class=answer-letter data-pos=1></div>
+            <div class=answer-letter data-pos=2></div>
+            <div class=answer-letter data-pos=3></div>
+            <div class=answer-letter data-pos=4></div>
+            <div class=answer-letter data-pos=5></div>
+            <div class=answer-letter data-pos=6></div>
+          </div>
+          <button type=button id=submit-button>SUBMIT</button>
+        </div>
+        <div id=pane-keyboard></div>
       </div>
       <div id=scene-preload class=scene>
         <div class=centerize>
