@@ -1,5 +1,5 @@
 $(function () {
-  "use strict";
+  'use strict';
 
   const SCREEN_WIDTH = 500, SCREEN_HEIGHT = 700;
   const FRAME_RATE = 25;
@@ -41,12 +41,12 @@ $(function () {
     try {
       localStorage.setItem(APP_NAME, JSON.stringify(settings));
     } catch (e) {
-      alert("ERROR: " + e.message);
+      alert('ERROR: ' + e.message);
     }
   }
 
   function resetSettings() {
-    if (!window.confirm("Reset progress?")) return;
+    if (!window.confirm('Reset progress?')) return;
     settings = JSON.parse(DEFAULT_SETTINGS);
     saveSettings();
     window.location.reload();
@@ -63,10 +63,56 @@ $(function () {
   function switchToPuzzle(idx) {
     currentIdx = idx;
     PUZZLES[currentIdx].init();
+    checkKeys();
     showScene('puzzle');
   }
 
   $('#back-button').click(setupMenu);
+
+  const ANS_DIVS = $('.answer-letter'),
+    KEY_ALPHS = $('.key.alph'),
+    KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 26,
+    KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 27;
+
+  function getAnswer() {
+    let answer = '';
+    ANS_DIVS.each(function () {
+      let t = $(this).text();
+      answer += (t.length ? t : '_');
+    });
+    return answer;
+  }
+
+  // Set the 'xxx' class on disabled keys
+  function checkKeys() {
+    if (PUZZLES[currentIdx].checkKeys !== void 0) {
+      if (PUZZLES[currentIdx].checkKeys()) return;
+    }
+    let answer = getAnswer(),
+      isEmpty = (answer === '_______'),
+      isFilled = (answer.search('_') === -1);
+    console.log(answer, isEmpty, isFilled);
+    KEY_BKSP.toggleClass('xxx', isEmpty);
+    KEY_ALPHS.toggleClass('xxx', isFilled);
+    KEY_SUBMIT.toggleClass('xxx', !isFilled);
+  }
+
+  function onKey(key) {
+    if (key.hasClass('xxx')) return;
+    if (PUZZLES[currentIdx].onKey !== void 0) {
+      if (PUZZLES[currentIdx].onKey(key)) return;
+    }
+    let keyId = key.index();
+    if (keyId === KEY_SUBMIT_ID) {
+    } else if (keyId === KEY_BKSP_ID) {
+    } else {  // Alph
+    }
+  }
+
+  $('.key').click(function (e) { 
+    onKey($(this));
+    checkKeys();
+  });
 
   // ################################
   // Actual puzzles

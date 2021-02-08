@@ -31,8 +31,13 @@
   transform: translate(0, 5px);
   border-bottom: 1px solid;
 }
-.btn.disabled {
-  background-color: #CCC;
+.btn.xxx {
+  background-color: #DDD;
+  border-color: #BBB;
+}
+.btn.xxx:active {
+  transform: none;
+  border-bottom: 5px solid #BBB;
 }
 
 html {
