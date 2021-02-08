@@ -14,13 +14,11 @@ $(function () {
     $('.scene').hide();
     $('#scene-' + name).show();
     if (!noFade) {
-      $('#cover-fade').addClass('faded');
+      setTimeout(function () {
+        $('#cover-fade').addClass('faded');
+      }, 5);
     }
   }
-
-  $('#cover-fade').on('transitionend', function () {
-    $(this).removeClass('faded').hide();
-  });
 
   // ################################
   // Persistence
@@ -68,6 +66,8 @@ $(function () {
     showScene('puzzle');
   }
 
+  $('#back-button').click(setupMenu);
+
   // ################################
   // Actual puzzles
 
@@ -85,6 +85,7 @@ $(function () {
       let idx = +$(x).data('idx');
       $(x).toggleClass('completed', !!settings.completed[idx]);
     });
+    showScene('menu');
   }
 
   $('#reset-button').click(resetSettings);
@@ -131,7 +132,6 @@ $(function () {
     numResourcesLeft--;
     if (numResourcesLeft === 0) {
       setupMenu();
-      showScene('menu');
     } else {
       $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
     }

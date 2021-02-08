@@ -18,19 +18,21 @@
 }
 
 .btn {
-  border-radius: 5px;
-  color: #fff;
+  box-sizing: content-box;
+  border-radius: 10px;
   position: relative;
   display: inline-block;
-  background-color: #39D;
   color: white;
   text-align: center;
-}
-.btn:hover {
-  background-color: #4AE;
+  border-bottom: 5px solid #17B;
+  background-color: #39D;
 }
 .btn:active {
-  background-color: #28C;
+  transform: translate(0, 5px);
+  border-bottom: 1px solid;
+}
+.btn.disabled {
+  background-color: #CCC;
 }
 
 html {
@@ -69,10 +71,12 @@ div.scene, div.cover {
 #cover-fade {
   background: black;
   opacity: 1;
-  transition: opacity 1s;
+  visibility: visible;
 }
 #cover-fade.faded {
+  visibility: hidden;
   opacity: 0;
+  transition: visibility 1s, opacity 1s;
 }
 
 /* ################################ */
@@ -107,8 +111,8 @@ div.scene, div.cover {
 
 #reset-button {
   position: absolute;
-  left: 5px; width: 70px;
-  bottom: 5px; height: 30px; line-height: 30px;
+  right: 5px; width: 70px;
+  top: 5px; height: 30px; line-height: 30px;
 }
 
 /* ################################ */
@@ -130,14 +134,14 @@ div.scene, div.cover {
 
 #pane-answer-row {
   position: absolute;
-  left: 25px;
+  left: 20px;
   top: 370px; height: 60px;
 }
 
 #back-button {
   position: absolute;
   left: 0; width: 64px;
-  top: 0; height: 60px; line-height: 60px;
+  top: 0; height: 55px; line-height: 55px;
 }
 
 #answer-box {
@@ -149,7 +153,9 @@ div.scene, div.cover {
 }
 
 .answer-letter {
-  width: 54px; height: 60px;
+  width: 55px; height: 60px; line-height: 60px;
+  text-align: center;
+  font-size: 36px;
 }
 
 .answer-letter:nth-child(1) { background: #FACDCD; }
@@ -168,7 +174,7 @@ div.scene, div.cover {
 }
 
 .key {
-  margin: 1px 2px;
-  width: 64px; height: 60px; line-height: 60px;
+  margin: 2px 2px;
+  width: 64px; height: 55px; line-height: 55px;
   font-size: 36px;
 }
