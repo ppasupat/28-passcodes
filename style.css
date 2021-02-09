@@ -213,10 +213,10 @@ div.scene, div.cover {
   margin: 45px 0 20px;
 }
 #puzzle-screen .p0-slide p {
-  font-size: 150%;
+  font-size: 140%;
 }
 #puzzle-screen .p0-slide p.p0-small {
-  font-size: 120%;
+  font-size: 100%;
 }
 
 #puzzle-screen #p0-next {

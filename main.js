@@ -239,7 +239,8 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
-    'img/emoji/heart.png',
+    'img/emoji/1f6b2-parts.png',
+    'img/mystery-animal.png',
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
