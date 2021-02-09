@@ -16,7 +16,7 @@ $(function () {
     if (!noFade) {
       setTimeout(function () {
         $('#cover-fade').addClass('faded');
-      }, 5);
+      }, 50);
     }
   }
 
@@ -147,10 +147,36 @@ $(function () {
   // ################################
   // Actual puzzles
 
+  PUZZLES[0] = {
+    init: function () {
+      let slides = [], currSlide = 0;
+      slides.push(
+        $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN)
+          .append($('<h1>').text('Rule'))
+          .append($('<p>').text('The answer always has 7 letters.')));
+      slides.push(
+        $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
+          .append($('<h1>').text('Hint 1'))
+          .append($('<p>').text('Interact with the puzzle screen.')));
+      slides.push(
+        $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
+          .append($('<h1>').text('Hint 2'))
+          .append($('<p>').text('Think outside the box!')));
+      $('<div class=btn id="p0-next">').appendTo(PUZZLE_SCREEN)
+        .text('NEXT').click(function () {
+          currSlide = (currSlide + 1) % slides.length;
+          for (let i = 0; i < slides.length; i++) {
+            slides[i].toggle(i == currSlide);
+          }
+        });
+    },
+    answer: 'BICYCLE',
+  };
+
   PUZZLES[4] = {
     init: function () {
       PUZZLE_SCREEN.append(
-        $('<div class=fill-screen>')
+        $('<div class=fill>')
         .css('background', 'url("img/mystery-animal.png")'));
     },
     answer: 'AXOLOTL',
