@@ -152,17 +152,27 @@ $(function () {
       let slides = [], currSlide = 0;
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN)
-          .append($('<h1>').text('Rule'))
-          .append($('<p>').text('The answer always has 7 letters.')));
+          .append($('<div class=p0-hint id=p0-hint-0>'))
+          .append($('<div class=fill>')
+            .append($('<h1>').text('Rule'))
+            .append($('<p>').text('The answer has 7 letters.'))
+            .append($('<p class=p0-small>').text('Type it in and press \u23ce.'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
-          .append($('<h1>').text('Hint 1'))
-          .append($('<p>').text('Interact with the puzzle screen.')));
+          .append($('<div class=p0-hint id=p0-hint-1>'))
+          .append($('<div class=fill>')
+            .append($('<h1>').text('Hint 1'))
+            .append($('<p>').text('Interact with the puzzle screen.'))
+            .append($('<p class=p0-small>').text('Click/Tap on suspicious objects!'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
-          .append($('<h1>').text('Hint 2'))
-          .append($('<p>').text('Think outside the box!')));
-      $('<div class=btn id="p0-next">').appendTo(PUZZLE_SCREEN)
+          .append($('<div class=p0-hint id=p0-hint-2>'))
+          .append($('<div class=fill>')
+            .append($('<h1>').text('Hint 2'))
+            .append($('<p>').text('Think outside the box.'))
+            .append($('<p class=p0-small>')
+              .text('... and sometimes outside your device!'))));
+      $('<div class="btn btn-bottom" id="p0-next">').appendTo(PUZZLE_SCREEN)
         .text('NEXT').click(function () {
           currSlide = (currSlide + 1) % slides.length;
           for (let i = 0; i < slides.length; i++) {
