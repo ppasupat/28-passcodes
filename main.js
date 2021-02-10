@@ -57,11 +57,19 @@ $(function () {
   // ################################
   // Puzzle utils
 
+  const PUZZLE_SCREEN = $('#puzzle-screen'),
+    ANS_DIVS = $('.answer-letter'),
+    KEY_ALPHS = $('.key.alph'), ASCII_A = 65,
+    KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 26,
+    KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 27;
+
   const PUZZLES = [];
   let currentIdx = null;
 
   function switchToPuzzle(idx) {
     currentIdx = idx;
+    PUZZLE_SCREEN.empty();    // Clear memory, again
+    clearAnswer();
     PUZZLES[currentIdx].init();
     checkKeys();
     showScene('puzzle');
@@ -74,12 +82,6 @@ $(function () {
   }
 
   $('#back-button').click(setupMenu);
-
-  const PUZZLE_SCREEN = $('#puzzle-screen'),
-    ANS_DIVS = $('.answer-letter'),
-    KEY_ALPHS = $('.key.alph'), ASCII_A = 65,
-    KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 26,
-    KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 27;
 
   function getAnswer() {
     let answer = '';
@@ -102,6 +104,10 @@ $(function () {
       return;
     }
     $(ANS_DIVS.get(pos)).text(value === '_' ? '' : value);
+  }
+
+  function clearAnswer() {
+    ANS_DIVS.text('');
   }
 
   // Set the 'xxx' class on disabled keys
@@ -183,6 +189,15 @@ $(function () {
     answer: 'BICYCLE',
   };
 
+  PUZZLES[1] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/pigpen.png")'));
+    },
+    answer: 'JACUZZI',
+  };
+
   PUZZLES[4] = {
     init: function () {
       PUZZLE_SCREEN.append(
@@ -240,6 +255,7 @@ $(function () {
 
   const imageList = [
     'img/emoji/1f6b2-parts.png',
+    'img/pigpen.png',
     'img/mystery-animal.png',
   ];
   let numResourcesLeft = imageList.length;
@@ -254,9 +270,7 @@ $(function () {
     }
   }
 
-  let images = [
-    'img/mystery-animal.png',
-  ];
+  let images = [];
   imageList.forEach(function (x) {
     let img = new Image();
     img.onload = decrementPreload;
