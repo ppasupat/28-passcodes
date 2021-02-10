@@ -150,7 +150,7 @@ div.scene, div.cover {
 #back-button {
   position: absolute;
   left: 0; width: 64px;
-  top: 0; height: 55px; line-height: 55px;
+  top: 0; height: 55px; line-height: 52px;
 }
 
 #answer-box {
@@ -162,7 +162,7 @@ div.scene, div.cover {
 }
 
 .answer-letter {
-  width: 55px; height: 60px; line-height: 60px;
+  width: 55px; height: 60px; line-height: 58px;
   text-align: center;
   font-size: 36px;
 }
@@ -184,7 +184,7 @@ div.scene, div.cover {
 
 .key {
   margin: 2px 2px;
-  width: 64px; height: 55px; line-height: 55px;
+  width: 64px; height: 55px; line-height: 52px;
   font-size: 36px;
 }
 
