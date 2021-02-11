@@ -193,16 +193,25 @@ $(function () {
     init: function () {
       PUZZLE_SCREEN.append(
         $('<div class=fill>')
-        .css('background', 'url("img/pigpen.png")'));
+        .css('background', 'url("img/pigpen.jpg")'));
     },
     answer: 'JACUZZI',
+  };
+
+  PUZZLES[2] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/middle.jpg")'));
+    },
+    answer: 'MALLEUS',
   };
 
   PUZZLES[4] = {
     init: function () {
       PUZZLE_SCREEN.append(
         $('<div class=fill>')
-        .css('background', 'url("img/mystery-animal.png")'));
+        .css('background', 'url("img/mystery-animal.jpg")'));
     },
     answer: 'AXOLOTL',
   };
@@ -255,8 +264,9 @@ $(function () {
 
   const imageList = [
     'img/emoji/1f6b2-parts.png',
-    'img/pigpen.png',
-    'img/mystery-animal.png',
+    'img/pigpen.jpg',
+    'img/middle.jpg',
+    'img/mystery-animal.jpg',
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
