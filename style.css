@@ -88,6 +88,13 @@ div.scene, div.cover {
   transition: visibility 1s, opacity 1s;
 }
 
+#cover-incorrect {
+  background: rgba(255, 0, 0, 0.5);
+}
+#cover-correct {
+  background: rgba(0, 255, 0, 0.5);
+}
+
 /* ################################ */
 /* preload scene */
 
@@ -188,6 +195,21 @@ div.scene, div.cover {
   font-size: 36px;
 }
 
+#legend-left {
+  position: absolute; left: 3px; top: 3px;
+}
+#legend-right {
+  position: absolute; right: 3px; top: 3px;
+}
+
+.legend {
+  width: 36px; height: 36px;
+  background: url('img/emoji/legends.png');
+  display: inline-block; vertical-align: bottom;
+}
+.legend.legend-box { background-position-y: 36px; }
+.legend.legend-on { background-position-x: 36px; }
+
 /* ################################ */
 /* actual puzzles */
 
@@ -210,13 +232,16 @@ div.scene, div.cover {
 #puzzle-screen .p0-slide h1 {
   font-size: 300%;
   font-weight: bold;
-  margin: 45px 0 20px;
+  margin: 30px 0 15px;
 }
 #puzzle-screen .p0-slide p {
-  font-size: 140%;
+  font-size: 130%;
 }
 #puzzle-screen .p0-slide p.p0-small {
   font-size: 100%;
+}
+#puzzle-screen .p0-slide p.p0-large {
+  font-size: 160%;
 }
 
 #puzzle-screen #p0-next {

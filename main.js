@@ -10,14 +10,22 @@ $(function () {
   function showScene(name, noFade) {
     if (!noFade) {
       $('#cover-fade').show().removeClass('faded');
-    }
-    $('.scene').hide();
-    $('#scene-' + name).show();
-    if (!noFade) {
       setTimeout(function () {
         $('#cover-fade').addClass('faded');
       }, 50);
     }
+    $('.scene').hide();
+    $('#scene-' + name).show();
+  }
+
+  function showCover(name, delay, callback) {
+    $('#cover-' + name).show();
+    setTimeout(function () {
+      $('#cover-' + name).hide();
+      if (callback !== void 0) {
+        callback();
+      }
+    }, delay);
   }
 
   // ################################
@@ -71,6 +79,8 @@ $(function () {
     PUZZLE_SCREEN.empty();    // Clear memory, again
     clearAnswer();
     PUZZLES[currentIdx].init();
+    $('#legend-left').toggleClass('legend-on', PUZZLES[currentIdx].legends[0]);
+    $('#legend-right').toggleClass('legend-on', PUZZLES[currentIdx].legends[1]);
     checkKeys();
     showScene('puzzle');
   }
@@ -131,11 +141,9 @@ $(function () {
       firstBlankPos = getFirstBlankPos(answer);
     if (keyId === KEY_SUBMIT_ID) {
       if (answer === PUZZLES[currentIdx].answer) {
-        // TODO: Replace with something less intrusive
-        alert('Correct!');
-        winPuzzle();
+        showCover('correct', 1000, winPuzzle);
       } else {
-        alert('Incorrect!');
+        showCover('incorrect', 500);
       }
     } else if (keyId === KEY_BKSP_ID) {
       setAnswer(firstBlankPos - 1, '_');
@@ -161,23 +169,32 @@ $(function () {
           .append($('<div class=p0-hint id=p0-hint-0>'))
           .append($('<div class=fill>')
             .append($('<h1>').text('Rule'))
-            .append($('<p>').text('The answer has 7 letters.'))
+            .append($('<p>').text('The answer always has'))
+            .append($('<p class=p0-large>').text('7 LETTERS'))
             .append($('<p class=p0-small>').text('Type it in and press \u23ce.'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
           .append($('<div class=p0-hint id=p0-hint-1>'))
           .append($('<div class=fill>')
             .append($('<h1>').text('Hint 1'))
-            .append($('<p>').text('Interact with the puzzle screen.'))
+            .append($('<p>')
+              .append('Puzzles with ')
+              .append($('<div class="legend legend-on">'))
+              .append(' require'))
+            .append($('<p class=p0-large>').text('INTERACTION'))
             .append($('<p class=p0-small>').text('Click/Tap on suspicious objects!'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
           .append($('<div class=p0-hint id=p0-hint-2>'))
           .append($('<div class=fill>')
             .append($('<h1>').text('Hint 2'))
-            .append($('<p>').text('Think outside the box.'))
+            .append($('<p>')
+              .append('Puzzles with ')
+              .append($('<div class="legend legend-box legend-on">'))
+              .append(' require thinking'))
+            .append($('<p class=p0-large>').text('OUTSIDE THE BOX'))
             .append($('<p class=p0-small>')
-              .text('... and sometimes outside your device!'))));
+              .text('... or maybe outside your device!'))));
       $('<div class="btn btn-bottom" id="p0-next">').appendTo(PUZZLE_SCREEN)
         .text('NEXT').click(function () {
           currSlide = (currSlide + 1) % slides.length;
@@ -187,6 +204,7 @@ $(function () {
         });
     },
     answer: 'BICYCLE',
+    legends: [true, false],
   };
 
   PUZZLES[1] = {
@@ -196,6 +214,7 @@ $(function () {
         .css('background', 'url("img/pigpen.jpg")'));
     },
     answer: 'JACUZZI',
+    legends: [false, false],
   };
 
   PUZZLES[2] = {
@@ -205,6 +224,7 @@ $(function () {
         .css('background', 'url("img/middle.jpg")'));
     },
     answer: 'MALLEUS',
+    legends: [false, false],
   };
 
   PUZZLES[4] = {
@@ -214,6 +234,7 @@ $(function () {
         .css('background', 'url("img/mystery-animal.jpg")'));
     },
     answer: 'AXOLOTL',
+    legends: [false, false],
   };
 
   // ################################
@@ -263,6 +284,7 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
+    'img/emoji/legends.png',
     'img/emoji/1f6b2-parts.png',
     'img/pigpen.jpg',
     'img/middle.jpg',
