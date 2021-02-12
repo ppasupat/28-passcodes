@@ -7,24 +7,24 @@ $(function () {
   // ################################
   // Utilities
 
-  function showScene(name, noFade) {
+  function showScene(name, noFade, callback) {
     if (!noFade) {
       $('#cover-fade').show().removeClass('faded');
       setTimeout(function () {
         $('#cover-fade').addClass('faded');
+        if (callback !== void 0) callback();
       }, 50);
     }
     $('.scene').hide();
     $('#scene-' + name).show();
+    if (noFade && callback !== void 0) callback();
   }
 
   function showCover(name, delay, callback) {
     $('#cover-' + name).show();
     setTimeout(function () {
       $('#cover-' + name).hide();
-      if (callback !== void 0) {
-        callback();
-      }
+      if (callback !== void 0) callback();
     }, delay);
   }
 
@@ -227,6 +227,40 @@ $(function () {
     legends: [false, false],
   };
 
+  const P3_GRID = [
+    [6, 8, 2, 4, 4, 10, 3, 0, 11, 8, 11, 7],
+    [9, 11, 3, 6, 2, 6, 1, 11, 11, 0, 5, 8],
+    [8, 9, 1, 2, 1, 10, 0, 0, 7, 1, 7, 5],
+    [11, 10, 5, 8, 7, 8, 0, 10, 6, 0, 11, 2],
+    [0, 3, 11, 3, 7, 2, 1, 1, 6, 8, 9, 6],
+    [1, 10, 11, 3, 8, 5, 10, 6, 9, 5, 3, 7],
+    [5, 11, 4, 9, 3, 0, 8, 0, 10, 4, 6, 0],
+    [4, 4, 4, 9, 11, 8, 11, 5, 8, 4, 9, 5],
+  ];
+
+  PUZZLES[3] = {
+    init: function () {
+      let petshop = $('<div class=fill>').appendTo(PUZZLE_SCREEN);
+      $('<div class=p3-title>').appendTo(petshop).text('PET SHOP');
+      P3_GRID.forEach(function (gridRow) {
+        let row = $('<div class=p3-row>').appendTo(petshop);
+        gridRow.forEach(function (cell) {
+          $('<div class=p3-pet>').addClass('p3-a' + cell).appendTo(row);
+        });
+      });
+      petshop.on('click', '.p3-pet', function (e) {
+        let cell = /p3-a\d+/.exec(e.target.className);
+        if (cell === null) {
+          alert('Cell ID not found.');
+          return;
+        }
+        petshop.find('.' + cell).toggleClass('p3-on');
+      });
+    },
+    answer: 'PENGUIN',
+    legends: [true, false],
+  };
+
   PUZZLES[4] = {
     init: function () {
       PUZZLE_SCREEN.append(
@@ -260,10 +294,6 @@ $(function () {
     }
   });
 
-  function onWinPuzzle() {
-
-  }
-
   // ################################
   // Preloading and screen resizing
 
@@ -288,6 +318,7 @@ $(function () {
     'img/emoji/1f6b2-parts.png',
     'img/pigpen.jpg',
     'img/middle.jpg',
+    'img/emoji/pets.png',
     'img/mystery-animal.jpg',
   ];
   let numResourcesLeft = imageList.length;

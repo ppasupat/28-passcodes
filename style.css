@@ -262,3 +262,37 @@ div.scene, div.cover {
 #puzzle-screen #p0-hint-1 {
   background-position-y: 316px;
 }
+
+/* ################ */
+/* puzzle 3 */
+
+#puzzle-screen .p3-title {
+  height: 32px; font-size: 24px; line-height: 30px;
+  text-align: center; font-weight: bold;
+  background: #fd9; color: brown;
+}
+#puzzle-screen .p3-row {
+  height: 36px; line-height: 1; text-align: center;
+}
+#puzzle-screen .p3-pet {
+  width: 36px; height: 36px;
+  background-image: url('img/emoji/pets.png');
+  opacity: 0.3;
+  display: inline-block;
+}
+#puzzle-screen .p3-pet.p3-on {
+  background-color: #00A;
+  opacity: 1;
+}
+#puzzle-screen .p3-a0 { background-position: 0 0; }
+#puzzle-screen .p3-a1 { background-position: -36px 0; }
+#puzzle-screen .p3-a2 { background-position: -72px 0; }
+#puzzle-screen .p3-a3 { background-position: -108px 0; }
+#puzzle-screen .p3-a4 { background-position: -144px 0; }
+#puzzle-screen .p3-a5 { background-position: -180px 0; }
+#puzzle-screen .p3-a6 { background-position: 0 36px; }
+#puzzle-screen .p3-a7 { background-position: -36px 36px; }
+#puzzle-screen .p3-a8 { background-position: -72px 36px; }
+#puzzle-screen .p3-a9 { background-position: -108px 36px; }
+#puzzle-screen .p3-a10 { background-position: -144px 36px; }
+#puzzle-screen .p3-a11 { background-position: -180px 36px; }
