@@ -168,16 +168,16 @@ $(function () {
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN)
           .append($('<div class=p0-hint id=p0-hint-0>'))
           .append($('<div class=fill>')
-            .append($('<h1>').text('Rule'))
-            .append($('<p>').text('The answer always has'))
+            .append($('<h1 class=p0-header>').text('Rule'))
+            .append($('<p class=p0-middle>').text('The answer always has'))
             .append($('<p class=p0-large>').text('7 LETTERS'))
             .append($('<p class=p0-small>').text('Type it in and press \u23ce.'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
           .append($('<div class=p0-hint id=p0-hint-1>'))
           .append($('<div class=fill>')
-            .append($('<h1>').text('Hint 1'))
-            .append($('<p>')
+            .append($('<h1 class=p0-header>').text('Hint 1'))
+            .append($('<p class=p0-middle>')
               .append('Puzzles with ')
               .append($('<div class="legend legend-on">'))
               .append(' require'))
@@ -187,8 +187,8 @@ $(function () {
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
           .append($('<div class=p0-hint id=p0-hint-2>'))
           .append($('<div class=fill>')
-            .append($('<h1>').text('Hint 2'))
-            .append($('<p>')
+            .append($('<h1 class=p0-header>').text('Hint 2'))
+            .append($('<p class=p0-middle>')
               .append('Puzzles with ')
               .append($('<div class="legend legend-box legend-on">'))
               .append(' require thinking'))
@@ -271,6 +271,76 @@ $(function () {
     legends: [false, false],
   };
 
+  // Code modified from https://github.com/ppasupat/pairs/
+  PUZZLES[5] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/mystery-location.jpg")'));
+      let board = $('<div id=p5-board class="fill centerize">')
+        .appendTo(PUZZLE_SCREEN);
+      let cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+      // Shuffle
+      for (let i = cards.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        if (j != i) {
+          let tmp = cards[i];
+          cards[i] = cards[j];
+          cards[j] = tmp;
+        }
+      }
+      // Put on board
+      let rowLimit = 0, rowDiv;
+      for (let i = 0; i < cards.length; i++) {
+        if (i === rowLimit) {
+          rowDiv = $('<div class=p5-row>').appendTo(board);
+          rowLimit += 5;
+        }
+        let name = cards[i] < 12 ? cards[i] >> 1 : cards[i]; 
+        let cardFlipper = $('<div class=p5-card-flipper>').appendTo(rowDiv)
+          .data({index: i, name: name});
+        $('<div class="p5-card p5-card-front centerize">').appendTo(cardFlipper)
+          //.text(cards[i]);
+          .append($('<div class=p5-emoji>')
+            .css('background-position-x', '' + (-72 * cards[i]) + 'px'));
+        $('<div class="p5-card p5-card-back">').appendTo(cardFlipper);
+      }
+      // Add event listener
+      let open1 = null, open2 = null;
+      board.on("click", ".p5-card-flipper", function (e) {
+        let thisCard = $(this);
+        // Don't open removed or opened card
+        if (
+          thisCard.hasClass('removed') ||
+          (open1 !== null && open1.data('index') == thisCard.data('index')) ||
+          (open2 !== null && open2.data('index') == thisCard.data('index'))
+        ) {
+          return;
+        }
+        // Flip back the old cards if needed
+        if (open1 !== null && open2 !== null) {
+          if (!open1.hasClass('removed')) open1.removeClass('flip');
+          if (!open2.hasClass('removed')) open2.removeClass('flip');
+          open1 = null;
+          open2 = null;
+        }
+        thisCard.addClass('flip');
+        if (open1 === null) {
+          open1 = thisCard;
+        } else {
+          open2 = thisCard;
+          // If it's the 2nd card, check for match
+          if (open1.data('name') == open2.data('name')) {
+            open1.addClass('removed');
+            open2.addClass('removed');
+          }
+        }
+      });
+    },
+    answer: 'AIRPORT',
+    legends: [true, false],
+  };
+
   // ################################
   // Menu
 
@@ -320,6 +390,7 @@ $(function () {
     'img/middle.jpg',
     'img/emoji/pets.png',
     'img/mystery-animal.jpg',
+    'img/mystery-location.jpg',
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');

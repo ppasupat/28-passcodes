@@ -222,77 +222,124 @@ div.scene, div.cover {
 /* ################ */
 /* puzzle 0 */
 
-#puzzle-screen .p0-slide {
+.p0-slide {
   text-align: center;
 }
-#puzzle-screen .p0-slide:nth-child(1) { background: #333; color: #eee; }
-#puzzle-screen .p0-slide:nth-child(2) { background: #f77; color: #fee; }
-#puzzle-screen .p0-slide:nth-child(3) { background: #ccc; color: #005; }
+.p0-slide:nth-child(1) { background: #333; color: #eee; }
+.p0-slide:nth-child(2) { background: #f77; color: #fee; }
+.p0-slide:nth-child(3) { background: #ccc; color: #005; }
 
-#puzzle-screen .p0-slide h1 {
+.p0-slide .p0-header {
   font-size: 300%;
   font-weight: bold;
   margin: 30px 0 15px;
 }
-#puzzle-screen .p0-slide p {
-  font-size: 130%;
-}
-#puzzle-screen .p0-slide p.p0-small {
+.p0-slide .p0-small {
   font-size: 100%;
 }
-#puzzle-screen .p0-slide p.p0-large {
+.p0-slide .p0-middle {
+  font-size: 130%;
+}
+.p0-slide .p0-large {
   font-size: 160%;
 }
 
-#puzzle-screen #p0-next {
+#p0-next {
   position: absolute;
   right: 5px; bottom: 5px;
   padding: 10px;
 }
 
-#puzzle-screen .p0-hint {
+.p0-hint {
   position: absolute;
   left: 113px; top: 92px;
   width: 224px; height: 158px;
   background: url('img/emoji/1f6b2-parts.png');
 }
-#puzzle-screen #p0-hint-0 {
+#p0-hint-0 {
   background-position-y: 158px;
 }
-#puzzle-screen #p0-hint-1 {
+#p0-hint-1 {
   background-position-y: 316px;
 }
 
 /* ################ */
 /* puzzle 3 */
 
-#puzzle-screen .p3-title {
+.p3-title {
   height: 32px; font-size: 24px; line-height: 30px;
   text-align: center; font-weight: bold;
   background: #fd9; color: brown;
 }
-#puzzle-screen .p3-row {
+.p3-row {
   height: 36px; line-height: 1; text-align: center;
 }
-#puzzle-screen .p3-pet {
+.p3-pet {
   width: 36px; height: 36px;
   background-image: url('img/emoji/pets.png');
   opacity: 0.3;
   display: inline-block;
 }
-#puzzle-screen .p3-pet.p3-on {
+.p3-pet.p3-on {
   background-color: #00A;
   opacity: 1;
 }
-#puzzle-screen .p3-a0 { background-position: 0 0; }
-#puzzle-screen .p3-a1 { background-position: -36px 0; }
-#puzzle-screen .p3-a2 { background-position: -72px 0; }
-#puzzle-screen .p3-a3 { background-position: -108px 0; }
-#puzzle-screen .p3-a4 { background-position: -144px 0; }
-#puzzle-screen .p3-a5 { background-position: -180px 0; }
-#puzzle-screen .p3-a6 { background-position: 0 36px; }
-#puzzle-screen .p3-a7 { background-position: -36px 36px; }
-#puzzle-screen .p3-a8 { background-position: -72px 36px; }
-#puzzle-screen .p3-a9 { background-position: -108px 36px; }
-#puzzle-screen .p3-a10 { background-position: -144px 36px; }
-#puzzle-screen .p3-a11 { background-position: -180px 36px; }
+.p3-a0 { background-position: 0 0; }
+.p3-a1 { background-position: -36px 0; }
+.p3-a2 { background-position: -72px 0; }
+.p3-a3 { background-position: -108px 0; }
+.p3-a4 { background-position: -144px 0; }
+.p3-a5 { background-position: -180px 0; }
+.p3-a6 { background-position: 0 36px; }
+.p3-a7 { background-position: -36px 36px; }
+.p3-a8 { background-position: -72px 36px; }
+.p3-a9 { background-position: -108px 36px; }
+.p3-a10 { background-position: -144px 36px; }
+.p3-a11 { background-position: -180px 36px; }
+
+/* ################ */
+/* puzzle 5 */
+
+.p5-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.p5-card-flipper {
+  width: 85px;
+  height: 100px;
+  margin: 1px;
+  transform-style: preserve-3d;
+  transition: transform 300ms;
+}
+
+.p5-card-flipper.flip {
+  transform: rotateY(180deg);
+  cursor: default;
+}
+.p5-card-flipper.removed .p5-card {
+  opacity: 0.2;
+}
+
+.p5-card {
+  border: 1px solid #200;
+  border-radius: 5px;
+  width: 85px;
+  height: 100px;
+  background-color: #00A;
+  font-size: 40px;   /* for debug only */
+}
+
+.p5-card-front, .p5-card-back {
+  position: absolute;
+  backface-visibility: hidden;
+}
+.p5-card-front {
+  transform: rotateY(180deg);
+  background-color: white;
+}
+.p5-emoji {
+  width: 72px; height: 72px;
+  background: url('img/emoji/pairs.png');
+}
