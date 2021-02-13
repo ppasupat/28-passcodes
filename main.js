@@ -363,6 +363,16 @@ $(function () {
     legends: [false, true],
   };
 
+  PUZZLES[9] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/triple.jpg")'));
+    },
+    answer: 'AUTOPSY',
+    legends: [false, true],
+  };
+
   // ################################
   // Menu
 
