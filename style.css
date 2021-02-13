@@ -225,9 +225,9 @@ div.scene, div.cover {
 .p0-slide {
   text-align: center;
 }
-.p0-slide:nth-child(1) { background: #333; color: #eee; }
-.p0-slide:nth-child(2) { background: #f77; color: #fee; }
-.p0-slide:nth-child(3) { background: #ccc; color: #005; }
+.p0-slide:nth-child(1) { background: #3a3a3a; color: #eee; }
+.p0-slide:nth-child(2) { background: #ff8585; color: #fee; }
+.p0-slide:nth-child(3) { background: #d2d2d2; color: #005; }
 
 .p0-slide .p0-header {
   font-size: 300%;
@@ -342,4 +342,12 @@ div.scene, div.cover {
 .p5-emoji {
   width: 72px; height: 72px;
   background: url('img/emoji/pairs.png');
+}
+
+/* ################ */
+/* puzzle 7 */
+
+.p7-screen {
+  background: black;
+  color: #eee;
 }

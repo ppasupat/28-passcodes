@@ -42,7 +42,6 @@ $(function () {
       settings_raw = DEFAULT_SETTINGS;
     }
     settings = JSON.parse(settings_raw);
-    console.log(settings);
   }
 
   function saveSettings() {
@@ -339,6 +338,29 @@ $(function () {
     },
     answer: 'AIRPORT',
     legends: [true, false],
+  };
+
+  PUZZLES[7] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class="fill centerize p7-screen">').text('(sorry, no hint)'));
+    },
+    checkKeys: function () {
+      let answer = getAnswer(),
+        goldAnswer = this.answer,
+        isEmpty = (answer === '_______'),
+        isFilled = (answer.search('_') === -1);
+      KEY_BKSP.toggleClass('xxx', isEmpty);
+      KEY_SUBMIT.toggleClass('xxx', !isFilled);
+      KEY_ALPHS.each(function () {
+        let x = $(this).text();
+        $(this).toggleClass('xxx',
+          (goldAnswer.search(x) === -1 || answer.search(x) !== -1));
+      });
+      return true;
+    },
+    answer: 'RAINBOW',
+    legends: [false, true],
   };
 
   // ################################
