@@ -461,8 +461,8 @@ $(function () {
 
   PUZZLES[12] = {
     init: function () {
-      let bg = $('<div class="fill p12-bg">').appendTo(PUZZLE_SCREEN);
-      bg.append('<div id=p12-lives class=centerize>');
+      let bg = $('<div id=p12-bg class=fill>').appendTo(PUZZLE_SCREEN);
+      bg.append('<div id=p12-hangman class=centerize>');
       this.newWord();
     },
     answer: null,
@@ -470,9 +470,8 @@ $(function () {
     newWord: function () {
       let i = Math.floor(Math.random() * P12_WORDS.length);
       this.answer = P12_WORDS[i];
-      console.log(this, this.answer);
       this.used = [];
-      $('#p12-lives').text(P12_LIVES - this.used.length);
+      $('#p12-hangman').css('background-position-x', 0);
       // Reset the interface
       clearAnswer();
       checkKeys();
@@ -501,7 +500,9 @@ $(function () {
       }
       if (!found) {
         this.used.push(x);
-        $('#p12-lives').text(P12_LIVES - this.used.length);
+        let livesLeft = P12_LIVES - this.used.length;
+        $('#p12-hangman').css(
+          'background-position-x', (livesLeft * 300) + 'px');
         if (this.used.length === P12_LIVES) {
           showCover('incorrect', 500, this.newWord.bind(this));
         }
@@ -564,6 +565,12 @@ $(function () {
     'img/emoji/pets.png',
     'img/mystery-animal.jpg',
     'img/mystery-location.jpg',
+    'img/emoji/pairs.png',
+    'img/wall.jpg',
+    'img/box.jpg',
+    'img/triple.jpg',
+    'img/slices-v2.jpg',
+    'img/hangman.png',
   ];
   let numResourcesLeft = imageList.length;
   numResourcesLeft++;   // Audio
