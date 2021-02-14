@@ -89,7 +89,7 @@ div.scene, div.cover {
 #cover-fade.faded {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 1s, opacity 1s;
+  transition: visibility 500ms, opacity 500ms;
 }
 
 #cover-incorrect {
@@ -187,13 +187,13 @@ div.scene, div.cover {
   font-size: 36px;
 }
 
-.answer-letter:nth-child(1) { background: #FACDCD; }
-.answer-letter:nth-child(2) { background: #FAE6CD; }
-.answer-letter:nth-child(3) { background: #FAF9CD; }
-.answer-letter:nth-child(4) { background: #D4FACD; }
-.answer-letter:nth-child(5) { background: #CDF2FA; }
-.answer-letter:nth-child(6) { background: #CDCEFA; }
-.answer-letter:nth-child(7) { background: #EFCDFA; }
+.answer-letter:nth-child(1) { background: #FACDCD; color: #7d0000; }
+.answer-letter:nth-child(2) { background: #FAE6CD; color: #7d4500; }
+.answer-letter:nth-child(3) { background: #FAF9CD; color: #807d00; }
+.answer-letter:nth-child(4) { background: #D4FACD; color: #148000; }
+.answer-letter:nth-child(5) { background: #CDF2FA; color: #006980; }
+.answer-letter:nth-child(6) { background: #CDCEFA; color: #000380; }
+.answer-letter:nth-child(7) { background: #EFCDFA; color: #600080; }
 
 #pane-keyboard {
   position: absolute;

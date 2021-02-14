@@ -452,6 +452,68 @@ $(function () {
     legends: [true, true],
   };
 
+  const P12_LIVES = 8;
+  const P12_WORDS = [
+    'AWKWARD', 'CROQUET', 'DWARVES', 'FIXABLE', 'JACKPOT',
+    'JUKEBOX', 'KEYHOLE', 'MYSTERY', 'QUIZZES', 'UNKNOWN',
+    'WHISKEY', 'ZOOMING',
+  ];
+
+  PUZZLES[12] = {
+    init: function () {
+      let bg = $('<div class="fill p12-bg">').appendTo(PUZZLE_SCREEN);
+      bg.append('<div id=p12-lives class=centerize>');
+      this.newWord();
+    },
+    answer: null,
+    used: null,
+    newWord: function () {
+      let i = Math.floor(Math.random() * P12_WORDS.length);
+      this.answer = P12_WORDS[i];
+      console.log(this, this.answer);
+      this.used = [];
+      $('#p12-lives').text(P12_LIVES - this.used.length);
+      // Reset the interface
+      clearAnswer();
+      checkKeys();
+    },
+    checkKeys: function () {
+      let answer = getAnswer(),
+        used = this.used,
+        isEmpty = (answer === '_______'),
+        isFilled = (answer.search('_') === -1);
+      KEY_BKSP.addClass('xxx');
+      KEY_SUBMIT.addClass('xxx');
+      KEY_ALPHS.each(function () {
+        let x = $(this).text();
+        $(this).toggleClass('xxx',
+          (used.indexOf(x) !== -1 || answer.search(x) !== -1));
+      });
+      return true;
+    },
+    onKey: function (key) {
+      let x = key.text(), found = false;
+      for (let i = 0; i < 7; i++) {
+        if (this.answer.charAt(i) === x) {
+          setAnswer(i, x);
+          found = true;
+        }
+      }
+      if (!found) {
+        this.used.push(x);
+        $('#p12-lives').text(P12_LIVES - this.used.length);
+        if (this.used.length === P12_LIVES) {
+          showCover('incorrect', 500, this.newWord.bind(this));
+        }
+      }
+      if (getAnswer().search('_') === -1) {
+        showCover('correct', 1000, winPuzzle);
+      }
+      return true;
+    },
+    legends: [false, false],
+  };
+
   // ################################
   // Menu
 
