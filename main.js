@@ -5,6 +5,22 @@ $(function () {
   const FRAME_RATE = 25;
 
   // ################################
+  // Utilities
+
+  function shuffle(stuff) {
+    stuff = stuff.slice();
+    for (let i = stuff.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      if (j != i) {
+        let tmp = stuff[i];
+        stuff[i] = stuff[j];
+        stuff[j] = tmp;
+      }
+    }
+    return stuff;
+  }
+
+  // ################################
   // Scenes
 
   function showScene(name, noFade, callback) {
@@ -100,6 +116,7 @@ $(function () {
     currentIdx = idx;
     clearPuzzleScreen();
     clearAnswer();
+    resetKeys();
     PUZZLES[currentIdx].init();
     $('#legend-left').toggleClass('legend-on', PUZZLES[currentIdx].legends[0]);
     $('#legend-right').toggleClass('legend-on', PUZZLES[currentIdx].legends[1]);
@@ -119,6 +136,8 @@ $(function () {
   }
 
   $('#back-button').click(setupMenu);
+
+  // Answer-related stuff
 
   function getAnswer() {
     let answer = '';
@@ -147,6 +166,25 @@ $(function () {
     ANS_DIVS.text('');
   }
 
+  // Key-related stuff
+
+  const ENGLISH_KEYS = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G',
+    'H', 'I', 'J', 'K', 'L', 'M', 'N',
+    'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+    'V', 'W', 'X', 'Y', 'Z',
+  ];
+
+  function setKeys(keyArray) {
+    KEY_ALPHS.each(function (i) {
+      $(this).text(keyArray[i]);
+    });
+  }
+
+  function resetKeys() {
+    setKeys(ENGLISH_KEYS);
+  }
+
   // Set the 'xxx' class on disabled keys
   function checkKeys() {
     if (PUZZLES[currentIdx].checkKeys !== void 0) {
@@ -160,6 +198,7 @@ $(function () {
     KEY_SUBMIT.toggleClass('xxx', !isFilled);
   }
 
+  // Handler when clicking on a non-disabled key
   function onKey(key) {
     if (PUZZLES[currentIdx].onKey !== void 0) {
       if (PUZZLES[currentIdx].onKey(key)) return;
@@ -198,7 +237,7 @@ $(function () {
             .append($('<h1 class=p0-header>').text('Rule'))
             .append($('<p class=p0-middle>').text('The answer always has'))
             .append($('<p class=p0-large>').text('7 LETTERS'))
-            .append($('<p class=p0-small>').text('Type it in and press \u23ce.'))));
+            .append($('<p class=p0-small>').text('Type it in and press OK.'))));
       slides.push(
         $('<div class="fill p0-slide">').appendTo(PUZZLE_SCREEN).hide()
           .append($('<div class=p0-hint id=p0-hint-1>'))
@@ -306,16 +345,7 @@ $(function () {
         .css('background', 'url("img/mystery-location.jpg")'));
       let board = $('<div id=p5-board class="fill centerize">')
         .appendTo(PUZZLE_SCREEN);
-      let cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-      // Shuffle
-      for (let i = cards.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        if (j != i) {
-          let tmp = cards[i];
-          cards[i] = cards[j];
-          cards[j] = tmp;
-        }
-      }
+      let cards = shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
       // Put on board
       let rowLimit = 0, rowDiv;
       for (let i = 0; i < cards.length; i++) {
@@ -431,6 +461,17 @@ $(function () {
     legends: [false, true],
   };
 
+  PUZZLES[10] = {
+    init: function () {
+      setKeys(shuffle(ENGLISH_KEYS)); 
+      PUZZLE_SCREEN.append(
+        $('<div class="fill centerize">')
+        .text('The answer is VOLCANO'));
+    },
+    answer: 'VOLCANO',
+    legends: [false, false],
+  };
+
   PUZZLES[11] = {
     init: function () {
       let bg = $('<div class=fill>').appendTo(PUZZLE_SCREEN);
@@ -455,8 +496,7 @@ $(function () {
   const P12_LIVES = 8;
   const P12_WORDS = [
     'AWKWARD', 'CROQUET', 'DWARVES', 'FIXABLE', 'JACKPOT',
-    'JUKEBOX', 'KEYHOLE', 'MYSTERY', 'QUIZZES', 'UNKNOWN',
-    'WHISKEY', 'ZOOMING',
+    'JUKEBOX', 'KEYHOLE', 'MYSTERY', 'QUIZZES', 'WHISKEY',
   ];
 
   PUZZLES[12] = {
