@@ -11,7 +11,7 @@
   font-size: 20px;
 }
 
-.centerize {
+.centerize, .answer-letter, .btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,8 +21,6 @@
 .btn {
   box-sizing: content-box;
   border-radius: 10px;
-  position: relative;
-  display: inline-block;
   color: white;
   text-align: center;
   border-bottom: 5px solid #17B;
@@ -43,9 +41,13 @@
   transform: none !important;
   border-bottom: 5px solid #BBB !important;
 }
-.btn.red {
-  background-color: #D33;
-  border-bottom-color: #B11;
+.btn.btn-red {
+  background-color: #C33;
+  border-bottom-color: #A11;
+}
+.btn.btn-green {
+  background-color: #3C3;
+  border-bottom-color: #1A1;
 }
 
 html {
@@ -128,6 +130,9 @@ div.scene, div.cover {
 /* ################################ */
 /* menu scene */
 
+#scene-menu {
+  background: url('img/paper_3_cyan.png');
+}
 .poster {
   border: 1px solid black;
   width: 90px;
@@ -170,7 +175,7 @@ div.scene, div.cover {
 #back-button {
   position: absolute;
   left: 0; width: 64px;
-  top: 0; height: 55px; line-height: 52px;
+  top: 0; height: 55px;
 }
 
 #answer-box {
@@ -182,7 +187,7 @@ div.scene, div.cover {
 }
 
 .answer-letter {
-  width: 55px; height: 60px; line-height: 58px;
+  width: 55px; height: 60px;
   text-align: center;
   font-size: 36px;
 }
@@ -201,10 +206,12 @@ div.scene, div.cover {
   top: 440px; bottom: 10px;
   text-align: center;
 }
-
+.key-row {
+  display: flex;
+}
 .key {
   margin: 2px 2px;
-  width: 64px; height: 55px; line-height: 52px;
+  width: 64px; height: 55px;
   font-size: 36px;
 }
 
@@ -280,7 +287,7 @@ div.scene, div.cover {
 /* puzzle 3 */
 
 .p3-title {
-  height: 32px; font-size: 24px; line-height: 30px;
+  height: 32px; font-size: 24px;
   text-align: center; font-weight: bold;
   background: #fd9; color: brown;
 }
@@ -362,9 +369,9 @@ div.scene, div.cover {
 
 #p6-play {
   position: absolute;
-  left: 150px; top: 210px;
-  width: 150px; height: 36px; line-height: 36px;
-  font-size: 28px;
+  left: 155px; top: 210px;
+  width: 140px; height: 36px;
+  font-size: 24px;
 }
 
 #p6-question {

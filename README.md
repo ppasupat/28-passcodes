@@ -14,6 +14,7 @@ There are 3 puzzles that require physical preparation:
 
 * Cliparts are from [Openclipart](https://openclipart.org/) unless specified otherwise
 * Emoji: from [twemoji](https://github.com/twitter/twemoji) (CC-BY 4.0)
+* Background pattern from [Toptal Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/)
 * Stirrup in `middle.jpg`: from [HiClipart](https://www.hiclipart.com/free-transparent-background-png-clipart-lufsb)
 * `mystery-animal.jpg`: from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pez-rosado-con-manos.jpg) by Valenlevaggi322 (CC-BY-SA 4.0)
 * `mystery-location.jpg`: from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nashville_International_Airport_Concourse_B_interior_1.jpg) by Mx. Granger (CC0 1.0)

@@ -5,7 +5,7 @@ $(function () {
   const FRAME_RATE = 25;
 
   // ################################
-  // Utilities
+  // Scenes
 
   function showScene(name, noFade, callback) {
     if (!noFade) {
@@ -89,9 +89,9 @@ $(function () {
 
   const PUZZLE_SCREEN = $('#puzzle-screen'),
     ANS_DIVS = $('.answer-letter'),
-    KEY_ALPHS = $('.key.alph'), ASCII_A = 65,
-    KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 26,
-    KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 27;
+    KEY_ALPHS = $('.key.alph'),
+    KEY_BKSP = $('#key-bksp'), KEY_BKSP_ID = 'key-bksp',
+    KEY_SUBMIT = $('#key-submit'), KEY_SUBMIT_ID = 'key-submit';
 
   const PUZZLES = [];
   let currentIdx = null;
@@ -164,8 +164,8 @@ $(function () {
     if (PUZZLES[currentIdx].onKey !== void 0) {
       if (PUZZLES[currentIdx].onKey(key)) return;
     }
-    let keyId = key.index(), answer = getAnswer(),
-      firstBlankPos = getFirstBlankPos(answer);
+    let keyId = key.attr('id'),
+      answer = getAnswer(), firstBlankPos = getFirstBlankPos(answer);
     if (keyId === KEY_SUBMIT_ID) {
       if (answer === PUZZLES[currentIdx].answer) {
         showCover('correct', 1000, winPuzzle);
@@ -175,7 +175,7 @@ $(function () {
     } else if (keyId === KEY_BKSP_ID) {
       setAnswer(firstBlankPos - 1, '_');
     } else {  // Alph
-      setAnswer(firstBlankPos, String.fromCharCode(ASCII_A + keyId));
+      setAnswer(firstBlankPos, key.text());
     }
   }
 
