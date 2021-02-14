@@ -360,3 +360,28 @@ div.scene, div.cover {
   background: black;
   color: #eee;
 }
+
+/* ################ */
+/* puzzle 11 */
+
+.p11-slice {
+  position: absolute; width: 450px;
+  background: url('img/slices-v2.jpg');
+}
+.p11-top {
+  top: 0; height: 140px;
+}
+.p11-mid {
+  top: 140px; height: 90px;
+  background-position-y: -140px;
+}
+.p11-btm {
+  top: 230px; height: 90px;
+  background-position-y: -230px;
+}
+.p11-a1 {
+  background-position-x: 450px;
+}
+.p11-a2 {
+  background-position-x: 900px;
+}

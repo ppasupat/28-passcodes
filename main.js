@@ -363,6 +363,16 @@ $(function () {
     legends: [false, true],
   };
 
+  PUZZLES[8] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/box.jpg")'));
+    },
+    answer: 'SOYBEAN',
+    legends: [false, true],
+  };
+
   PUZZLES[9] = {
     init: function () {
       PUZZLE_SCREEN.append(
@@ -371,6 +381,27 @@ $(function () {
     },
     answer: 'AUTOPSY',
     legends: [false, true],
+  };
+
+  PUZZLES[11] = {
+    init: function () {
+      let bg = $('<div class=fill>').appendTo(PUZZLE_SCREEN);
+      $('<div class="p11-slice p11-top">').appendTo(bg);
+      $('<div class="p11-slice p11-mid p11-a1">').appendTo(bg);
+      $('<div class="p11-slice p11-btm p11-a2">').appendTo(bg);
+      bg.on('click', '.p11-slice', function () {
+        let that = $(this);
+        if (that.hasClass('p11-a1')) {
+          that.removeClass('p11-a1').addClass('p11-a2');
+        } else if (that.hasClass('p11-a2')) {
+          that.removeClass('p11-a2');
+        } else {
+          that.addClass('p11-a1');
+        }
+      });
+    },
+    answer: 'MAGICAL',
+    legends: [true, true],
   };
 
   // ################################
