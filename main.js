@@ -29,6 +29,29 @@ $(function () {
   }
 
   // ################################
+  // Audio
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContext();
+  let songBuffer = null;
+  let audioSource = null;
+
+  function playSound(callback) {
+    audioSource = audioCtx.createBufferSource();
+    audioSource.buffer = songBuffer;
+    audioSource.connect(audioCtx.destination);
+    audioSource.onended = function () {
+      audioSource = null;
+      if (callback !== void 0) callback();
+    };
+    audioSource.start();
+  }
+
+  function stopSound() {
+    if (audioSource !== null) audioSource.stop();
+  }
+
+  // ################################
   // Persistence
 
   const APP_NAME = 'secret-code-28',
@@ -75,13 +98,18 @@ $(function () {
 
   function switchToPuzzle(idx) {
     currentIdx = idx;
-    PUZZLE_SCREEN.empty();    // Clear memory, again
+    clearPuzzleScreen();
     clearAnswer();
     PUZZLES[currentIdx].init();
     $('#legend-left').toggleClass('legend-on', PUZZLES[currentIdx].legends[0]);
     $('#legend-right').toggleClass('legend-on', PUZZLES[currentIdx].legends[1]);
     checkKeys();
     showScene('puzzle');
+  }
+
+  function clearPuzzleScreen() {
+    PUZZLE_SCREEN.empty();
+    stopSound();
   }
 
   function winPuzzle() {
@@ -340,6 +368,26 @@ $(function () {
     legends: [true, false],
   };
 
+  PUZZLES[6] = {
+    init: function () {
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/wall.jpg")'));
+      $('<div id=p6-play class=btn>').text('PLAY').appendTo(PUZZLE_SCREEN)
+        .click(function () {
+          if ($(this).hasClass('xxx')) return;
+          playSound(function () {
+            $('#p6-play').removeClass('xxx');
+          });
+          $('#p6-play').addClass('xxx');
+        });
+      $('<div id=p6-question class=centerize>').appendTo(PUZZLE_SCREEN)
+        .text("What's the singer's last name?");
+    },
+    answer: 'TAPUSAP',
+    legends: [true, false],
+  };
+
   PUZZLES[7] = {
     init: function () {
       PUZZLE_SCREEN.append(
@@ -360,7 +408,7 @@ $(function () {
       return true;
     },
     answer: 'RAINBOW',
-    legends: [false, true],
+    legends: [false, false],
   };
 
   PUZZLES[8] = {
@@ -408,7 +456,7 @@ $(function () {
   // Menu
 
   function setupMenu() {
-    PUZZLE_SCREEN.empty();    // Clear memory
+    clearPuzzleScreen();
     $('.poster').each(function (i, x) {
       let idx = +$(x).data('idx');
       $(x).toggleClass('completed', !!settings.completed[idx]);
@@ -456,6 +504,7 @@ $(function () {
     'img/mystery-location.jpg',
   ];
   let numResourcesLeft = imageList.length;
+  numResourcesLeft++;   // Audio
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
 
   function decrementPreload () {
@@ -475,5 +524,16 @@ $(function () {
     images.push(img);
   });
   showScene('preload', true);
+
+  let audioRequest = new XMLHttpRequest();
+  audioRequest.open("GET", 'img/m.ogg', true);
+  audioRequest.responseType = "arraybuffer";
+  audioRequest.onload = function () {
+    audioCtx.decodeAudioData(audioRequest.response, function (buffer) {
+      songBuffer = buffer;
+      decrementPreload();
+    });
+  };
+  audioRequest.send();
 
 });

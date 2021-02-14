@@ -36,12 +36,16 @@
   transform: none;
 }
 .btn.xxx {
-  background-color: #DDD;
-  border-color: #BBB;
+  background-color: #DDD !important;
+  border-color: #BBB !important;
 }
 .btn.xxx:active {
-  transform: none;
-  border-bottom: 5px solid #BBB;
+  transform: none !important;
+  border-bottom: 5px solid #BBB !important;
+}
+.btn.red {
+  background-color: #D33;
+  border-bottom-color: #B11;
 }
 
 html {
@@ -351,6 +355,23 @@ div.scene, div.cover {
 .p5-emoji {
   width: 72px; height: 72px;
   background: url('img/emoji/pairs.png');
+}
+
+/* ################ */
+/* puzzle 6 */
+
+#p6-play {
+  position: absolute;
+  left: 150px; top: 210px;
+  width: 150px; height: 36px; line-height: 36px;
+  font-size: 28px;
+}
+
+#p6-question {
+  position: absolute;
+  left: 20px; right: 20px; top: 260px; bottom: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
 }
 
 /* ################ */
