@@ -130,6 +130,13 @@ div.scene, div.cover {
 #scene-menu {
   background: url('img/paper_3_cyan.png');
 }
+
+
+#pane-puzzle-select {
+  position: absolute;
+  top: 120px; left: 0;
+  width: 100%; height: 420px;
+}
 .poster {
   border: 2px dashed #AAA;
   width: 90px;
@@ -137,19 +144,19 @@ div.scene, div.cover {
   position: absolute;
   background: #DDD;
 }
-.poster[data-idx="0"] { left: 9px; top: 55px; }
-.poster[data-idx="1"] { left: 107px; top: 60px; }
-.poster[data-idx="2"] { left: 205px; top: 55px; }
-.poster[data-idx="3"] { left: 303px; top: 60px; }
-.poster[data-idx="4"] { left: 401px; top: 55px; }
-.poster[data-idx="5"] { left: 9px; top: 200px; }
-.poster[data-idx="6"] { left: 107px; top: 195px; }
-.poster[data-idx="7"] { left: 205px; top: 200px; }
-.poster[data-idx="8"] { left: 303px; top: 195px; }
-.poster[data-idx="9"] { left: 401px; top: 200px; }
-.poster[data-idx="10"] { left: 107px; top: 345px; }
-.poster[data-idx="11"] { left: 205px; top: 335px; }
-.poster[data-idx="12"] { left: 303px; top: 345px; }
+.poster[data-idx="0"] { left: 9px; top: 5px; }
+.poster[data-idx="1"] { left: 107px; top: 10px; }
+.poster[data-idx="2"] { left: 205px; top: 5px; }
+.poster[data-idx="3"] { left: 303px; top: 10px; }
+.poster[data-idx="4"] { left: 401px; top: 5px; }
+.poster[data-idx="5"] { left: 9px; top: 150px; }
+.poster[data-idx="6"] { left: 107px; top: 145px; }
+.poster[data-idx="7"] { left: 205px; top: 150px; }
+.poster[data-idx="8"] { left: 303px; top: 145px; }
+.poster[data-idx="9"] { left: 401px; top: 150px; }
+.poster[data-idx="10"] { left: 107px; top: 295px; }
+.poster[data-idx="11"] { left: 205px; top: 285px; }
+.poster[data-idx="12"] { left: 303px; top: 295px; }
 
 .poster.completed {
   background: url('img/menu.jpg');
@@ -168,6 +175,21 @@ div.scene, div.cover {
 .poster.completed[data-idx="10"] { background-position-x: -902px; }
 .poster.completed[data-idx="11"] { background-position-x: -992px; }
 .poster.completed[data-idx="12"] { background-position-x: -1082px; }
+
+@keyframes flash {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.poster-flash {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: yellow;
+  animation: flash 600ms linear 0s infinite alternate;
+}
+.poster.completed .poster-flash {
+  display: none;
+  animation: none;
+}
 
 #reset-button {
   position: absolute;
