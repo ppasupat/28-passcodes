@@ -131,14 +131,42 @@ div.scene, div.cover {
   background: url('img/paper_3_cyan.png');
 }
 .poster {
-  border: 1px solid black;
+  border: 2px dashed #888;
   width: 90px;
   height: 120px;
-  float: left;
+  position: absolute;
+  background: #DDD;
 }
+.poster[data-idx="0"] { left: 15px; top: 55px; }
+.poster[data-idx="1"] { left: 110px; top: 60px; }
+.poster[data-idx="2"] { left: 205px; top: 55px; }
+.poster[data-idx="3"] { left: 300px; top: 60px; }
+.poster[data-idx="4"] { left: 395px; top: 55px; }
+.poster[data-idx="5"] { left: 15px; top: 200px; }
+.poster[data-idx="6"] { left: 110px; top: 195px; }
+.poster[data-idx="7"] { left: 205px; top: 200px; }
+.poster[data-idx="8"] { left: 300px; top: 195px; }
+.poster[data-idx="9"] { left: 395px; top: 200px; }
+.poster[data-idx="10"] { left: 110px; top: 340px; }
+.poster[data-idx="11"] { left: 205px; top: 330px; }
+.poster[data-idx="12"] { left: 300px; top: 340px; }
+
 .poster.completed {
   background: yellow;
 }
+.poster.completed[data-idx="0"] { background-position-x: -90px; }
+.poster.completed[data-idx="1"] { background-position-x: -90px; }
+.poster.completed[data-idx="2"] { background-position-x: -90px; }
+.poster.completed[data-idx="3"] { background-position-x: -90px; }
+.poster.completed[data-idx="4"] { background-position-x: -90px; }
+.poster.completed[data-idx="5"] { background-position-x: -90px; }
+.poster.completed[data-idx="6"] { background-position-x: -90px; }
+.poster.completed[data-idx="7"] { background-position-x: -90px; }
+.poster.completed[data-idx="8"] { background-position-x: -90px; }
+.poster.completed[data-idx="9"] { background-position-x: -90px; }
+.poster.completed[data-idx="10"] { background-position-x: -90px; }
+.poster.completed[data-idx="11"] { background-position-x: -90px; }
+.poster.completed[data-idx="12"] { background-position-x: -90px; }
 
 #reset-button {
   position: absolute;
