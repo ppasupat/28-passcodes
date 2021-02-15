@@ -456,6 +456,27 @@ $(function () {
 
   PUZZLES[10] = {
     init: function () {
+      let bg = $('<div class=fill>').appendTo(PUZZLE_SCREEN);
+      $('<div class="p10-slice p10-top">').appendTo(bg);
+      $('<div class="p10-slice p10-mid p10-a1">').appendTo(bg);
+      $('<div class="p10-slice p10-btm p10-a2">').appendTo(bg);
+      bg.on('click', '.p10-slice', function () {
+        let that = $(this);
+        if (that.hasClass('p10-a1')) {
+          that.removeClass('p10-a1').addClass('p10-a2');
+        } else if (that.hasClass('p10-a2')) {
+          that.removeClass('p10-a2');
+        } else {
+          that.addClass('p10-a1');
+        }
+      });
+    },
+    answer: 'MAGICAL',
+    legends: [true, true],
+  };
+
+  PUZZLES[11] = {
+    init: function () {
       setKeys(shuffle(ENGLISH_KEYS)); 
       PUZZLE_SCREEN.append(
         $('<div class="fill centerize">')
@@ -463,27 +484,6 @@ $(function () {
     },
     answer: 'VOLCANO',
     legends: [false, false],
-  };
-
-  PUZZLES[11] = {
-    init: function () {
-      let bg = $('<div class=fill>').appendTo(PUZZLE_SCREEN);
-      $('<div class="p11-slice p11-top">').appendTo(bg);
-      $('<div class="p11-slice p11-mid p11-a1">').appendTo(bg);
-      $('<div class="p11-slice p11-btm p11-a2">').appendTo(bg);
-      bg.on('click', '.p11-slice', function () {
-        let that = $(this);
-        if (that.hasClass('p11-a1')) {
-          that.removeClass('p11-a1').addClass('p11-a2');
-        } else if (that.hasClass('p11-a2')) {
-          that.removeClass('p11-a2');
-        } else {
-          that.addClass('p11-a1');
-        }
-      });
-    },
-    answer: 'MAGICAL',
-    legends: [true, true],
   };
 
   const P12_LIVES = 8;

@@ -88,7 +88,7 @@ div.scene, div.cover {
   to { opacity: 1; }
 }
 #scene-menu, #scene-puzzle {
-  animation: fade 600ms;
+  animation: fade 500ms;
 }
 
 #cover-incorrect {
@@ -391,27 +391,27 @@ div.scene, div.cover {
 }
 
 /* ################ */
-/* puzzle 11 */
+/* puzzle 10 */
 
-.p11-slice {
+.p10-slice {
   position: absolute; width: 450px;
   background: url('img/slices-v2.jpg');
 }
-.p11-top {
+.p10-top {
   top: 0; height: 140px;
 }
-.p11-mid {
+.p10-mid {
   top: 140px; height: 90px;
   background-position-y: -140px;
 }
-.p11-btm {
+.p10-btm {
   top: 230px; height: 90px;
   background-position-y: -230px;
 }
-.p11-a1 {
+.p10-a1 {
   background-position-x: 450px;
 }
-.p11-a2 {
+.p10-a2 {
   background-position-x: 900px;
 }
 
