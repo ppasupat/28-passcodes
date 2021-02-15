@@ -2,7 +2,7 @@ $(function () {
   'use strict';
 
   const SCREEN_WIDTH = 500, SCREEN_HEIGHT = 700;
-  const FRAME_RATE = 25;
+  const FRAME_RATE = 8;
 
   // ################################
   // Utilities
@@ -38,29 +38,6 @@ $(function () {
   }
 
   // ################################
-  // Audio
-
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
-  let songBuffer = null;
-  let audioSource = null;
-
-  function playSound(callback) {
-    audioSource = audioCtx.createBufferSource();
-    audioSource.buffer = songBuffer;
-    audioSource.connect(audioCtx.destination);
-    audioSource.onended = function () {
-      audioSource = null;
-      if (callback !== void 0) callback();
-    };
-    audioSource.start();
-  }
-
-  function stopSound() {
-    if (audioSource !== null) audioSource.stop();
-  }
-
-  // ################################
   // Persistence
 
   const APP_NAME = 'secret-code-28',
@@ -92,6 +69,59 @@ $(function () {
   }
 
   loadSettings();
+
+  // ################################
+  // Audio
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContext();
+  let songBuffer = null;
+  let audioSource = null;
+
+  function playSound(callback) {
+    audioSource = audioCtx.createBufferSource();
+    audioSource.buffer = songBuffer;
+    audioSource.connect(audioCtx.destination);
+    audioSource.onended = function () {
+      audioSource = null;
+      if (callback !== void 0) callback();
+    };
+    audioSource.start();
+  }
+
+  function stopSound() {
+    if (audioSource !== null) audioSource.stop();
+  }
+
+  // ################################
+  // Timer
+
+  // onUpdate: fn(timerId, percentTimeLeft)
+  //   Called every interval. Return true to keep the timer alive.
+  // onTimeup: fn()
+  //   Called once when the time left is 0.
+  function startTimer(amountMs, onUpdate, onTimeup) {
+    let timerStartTime = Date.now(), timerAmount = amountMs, timerId;
+    let updateTimer = function () {
+      let remaining = timerAmount - (Date.now() - timerStartTime);
+      //console.log(timerId, remaining);
+      if (!onUpdate(timerId, remaining / timerAmount)) {
+        stopTimer(timerId);   // Timer is no longer needed.
+        return;
+      }
+      if (remaining <= 0) {
+        stopTimer(timerId);
+        onTimeup();
+      }
+    };
+    timerId = window.setInterval(updateTimer, 1000. / FRAME_RATE);
+    return timerId;
+  }
+  
+  function stopTimer(timerId) {
+    //console.log('STOP', timerId);
+    window.clearInterval(timerId);
+  }
 
   // ################################
   // Puzzle utils
@@ -475,18 +505,72 @@ $(function () {
     legends: [true, true],
   };
 
+  const P11_TIME_LIMIT = 8000, P11_MAGMA_TOP = 100, P11_MAGMA_HEIGHT = 220;
+
   PUZZLES[11] = {
     init: function () {
+      let bg = $('<div id=p11-bg class=fill>').appendTo(PUZZLE_SCREEN);
+      $('<div id=p11-magma>').appendTo(bg);
+      $('<div id=p11-volcano>').appendTo(bg);
+      $('<div id=p11-lava>').appendTo(bg);
+      $('<div id=p11-prompt>').appendTo(bg)
+        .append('The answer is <strong>VOLCANO</strong>');
+      this.reset();
+    },
+    timerId: null,
+    reset: function () {
+      let that = this;
       setKeys(shuffle(ENGLISH_KEYS)); 
-      PUZZLE_SCREEN.append(
-        $('<div class="fill centerize">')
-        .text('The answer is VOLCANO'));
+      clearAnswer();
+      checkKeys();
+      $('#p11-magma').css('top', '' + (P11_MAGMA_TOP + P11_MAGMA_HEIGHT) + 'px');
+      $('#p11-lava').hide();
+      this.timerId = startTimer(
+        P11_TIME_LIMIT,
+        function (timerId, percentTimeLeft) {
+          if (timerId !== that.timerId
+            || !$('#p11-magma').length
+            || $('#p11-magma').hasClass('p11-won')) return false;
+          let topPx = P11_MAGMA_TOP + P11_MAGMA_HEIGHT * percentTimeLeft;
+          $('#p11-magma').css('top', '' + topPx + 'px');
+          return true;
+        }, function () {
+          $('#p11-lava').show();
+          showCover('incorrect', 500, that.reset.bind(that));
+        });
+    },
+    checkKeys: function () {
+      // Disable the submit key. Submit on the last letter.
+      // This is to prevent the "Incorrect screen" when pressing submit.
+      let answer = getAnswer(),
+        isEmpty = (answer === '_______'),
+        isFilled = (answer.search('_') === -1);
+      KEY_BKSP.toggleClass('xxx', isEmpty);
+      KEY_ALPHS.toggleClass('xxx', isFilled);
+      KEY_SUBMIT.addClass('xxx');
+      return true;
+    },
+    onKey: function (key) {
+      let keyId = key.attr('id'),
+        answer = getAnswer(), firstBlankPos = getFirstBlankPos(answer);
+      if (keyId === KEY_SUBMIT_ID) {
+        alert('Invalid key!');
+      } else if (keyId === KEY_BKSP_ID) {
+        setAnswer(firstBlankPos - 1, '_');
+      } else {  // Alph
+        setAnswer(firstBlankPos, key.text());
+        if (getAnswer() === this.answer) {
+          $('#p11-magma').addClass('p11-won');
+          showCover('correct', 1000, winPuzzle);
+        }
+      }
+      return true;
     },
     answer: 'VOLCANO',
     legends: [false, false],
   };
 
-  const P12_LIVES = 8;
+  const P12_LIVES = 9;
   const P12_WORDS = [
     'AWKWARD', 'CROQUET', 'DWARVES', 'FIXABLE', 'JACKPOT',
     'JUKEBOX', 'KEYHOLE', 'MYSTERY', 'QUIZZES', 'WHISKEY',
@@ -496,11 +580,11 @@ $(function () {
     init: function () {
       let bg = $('<div id=p12-bg class=fill>').appendTo(PUZZLE_SCREEN);
       bg.append('<div id=p12-hangman class=centerize>');
-      this.newWord();
+      this.reset();
     },
     answer: null,
     used: null,
-    newWord: function () {
+    reset: function () {
       let i = Math.floor(Math.random() * P12_WORDS.length);
       this.answer = P12_WORDS[i];
       this.used = [];
@@ -535,9 +619,9 @@ $(function () {
         this.used.push(x);
         let livesLeft = P12_LIVES - this.used.length;
         $('#p12-hangman').css(
-          'background-position-x', (livesLeft * 300) + 'px');
+          'background-position-x', ((livesLeft + 1) * 300) + 'px');
         if (this.used.length === P12_LIVES) {
-          showCover('incorrect', 500, this.newWord.bind(this));
+          showCover('incorrect', 500, this.reset.bind(this));
         }
       }
       if (getAnswer().search('_') === -1) {
