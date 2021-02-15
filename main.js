@@ -687,6 +687,7 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
+    'img/menu.jpg',
     'img/emoji/legends.png',
     'img/emoji/1f6b2-parts.png',
     'img/pigpen.jpg',
