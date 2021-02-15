@@ -687,6 +687,8 @@ $(function () {
     'img/box.jpg',
     'img/triple.jpg',
     'img/slices-v2.jpg',
+    'img/boom.png',
+    'img/lava.png',
     'img/hangman.png',
   ];
   let numResourcesLeft = imageList.length;
@@ -712,7 +714,7 @@ $(function () {
   showScene('preload');
 
   let audioRequest = new XMLHttpRequest();
-  audioRequest.open("GET", 'img/m.ogg', true);
+  audioRequest.open("GET", 'img/hbd.mp3', true);
   audioRequest.responseType = "arraybuffer";
   audioRequest.onload = function () {
     audioCtx.decodeAudioData(audioRequest.response, function (buffer) {
