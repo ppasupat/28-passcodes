@@ -649,10 +649,22 @@ $(function () {
 
   function setupMenu() {
     clearPuzzleScreen();
+    let numCompleted = 0;
     $('.poster').each(function (i, x) {
       let idx = +$(x).data('idx');
-      $(x).toggleClass('completed', !!settings.completed[idx]);
+      if (!!settings.completed[idx]) {
+        $(x).addClass('completed');
+        numCompleted++;
+      } else {
+        $(x).removeClass('completed');
+      }
     });
+    if (numCompleted >= 13) {
+      // Show the victory screen
+      setTimeout(function () {
+        $('#scene-menu').addClass('victory');
+      }, 500);
+    }
     showScene('menu');
   }
 

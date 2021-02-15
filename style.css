@@ -131,12 +131,16 @@ div.scene, div.cover {
   background: url('img/paper_3_cyan.png');
 }
 
-
 #pane-puzzle-select {
   position: absolute;
   top: 120px; left: 0;
-  width: 100%; height: 420px;
+  width: 100%; height: 450px;
 }
+#scene-menu.victory #pane-puzzle-select {
+  top: 50px;
+  transition: top 1s;
+}
+
 .poster {
   border: 2px dashed #AAA;
   width: 90px;
@@ -157,6 +161,7 @@ div.scene, div.cover {
 .poster[data-idx="10"] { left: 107px; top: 295px; }
 .poster[data-idx="11"] { left: 205px; top: 285px; }
 .poster[data-idx="12"] { left: 303px; top: 295px; }
+.poster[data-idx="13"] { left: 401px; top: 300px; display: none; }
 
 .poster.completed {
   background: url('img/menu.jpg');
@@ -175,6 +180,7 @@ div.scene, div.cover {
 .poster.completed[data-idx="10"] { background-position-x: -902px; }
 .poster.completed[data-idx="11"] { background-position-x: -992px; }
 .poster.completed[data-idx="12"] { background-position-x: -1082px; }
+.poster.completed[data-idx="13"] { background-position-x: -1172px; }
 
 @keyframes flash {
   from { opacity: 0; }
@@ -184,7 +190,7 @@ div.scene, div.cover {
   position: absolute;
   left: 0; top: 0; width: 100%; height: 100%;
   background: yellow;
-  animation: flash 600ms linear 0s infinite alternate;
+  animation: flash 600ms infinite alternate;
 }
 .poster.completed .poster-flash {
   display: none;
@@ -195,6 +201,71 @@ div.scene, div.cover {
   position: absolute;
   right: 5px; bottom: 5px;
   padding: 10px;
+}
+
+#pane-victory {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  background: rgba(0, 0, 100, 0.3);
+}
+#scene-menu.victory #pane-victory {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1s, visibility 1s;
+}
+
+/* from https://codepen.io/fskirschbaum/pen/MYJNaj */
+.lights-row {
+  position: absolute;
+  left: 0; right: 0; height: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+#lights-top { top: 10px; }
+#lights-bottom { bottom: 10px; }
+
+.light {
+  width: 15px; height: 15px; border-radius: 50%;
+}
+.light-red {
+  background: #f00;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 7px 1px,
+    inset #b00 0 0 5px,
+    #f33 0 0 14px 2px;
+}
+.light-green {
+  background: #8f0;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 7px 1px,
+    inset #490 0 0 5px,
+    #af3 0 0 14px 2px;
+}
+.light-blue {
+  background: #0ff;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 7px 1px,
+    inset #099 0 0 5px,
+    #3ff 0 0 14px 2px;
+}
+.light-yellow {
+  background: #ff0;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 7px 1px,
+    inset #990 0 0 5px,
+    #ff3 0 0 14px 2px;
+}
+
+#victory-message {
+  position: absolute;
+  left: 30px; right: 30px; top: 490px;
+  padding: 20px;
+  background: #f5f5ff;
+  border-radius: 10px;
+  text-align: center;
+}
+#victory-message .victory-message-title {
+  font-size: 130%;
 }
 
 /* ################################ */
