@@ -437,7 +437,19 @@ $(function () {
       $('<div id=p6-question class=centerize>').appendTo(PUZZLE_SCREEN)
         .text("What's the singer's last name?");
     },
-    answer: 'TAPUSAP',
+    onKey: function (key) {
+      // Alternative answers + Turn off the music
+      if (key.attr('id') === KEY_SUBMIT_ID) {
+        let answer = getAnswer();
+        if (answer === 'TAPUSAP' || answer === 'PATSUPA') {
+          showCover('correct', 1000, winPuzzle);
+          stopSound();
+          return true;
+        }
+      }
+      return false;
+    },
+    answer: null,   // Already checked in onKey above
     legends: [true, false],
   };
 
@@ -572,8 +584,8 @@ $(function () {
 
   const P12_LIVES = 9;
   const P12_WORDS = [
-    'AWKWARD', 'CROQUET', 'DWARVES', 'FIXABLE', 'JACKPOT',
-    'JUKEBOX', 'KEYHOLE', 'MYSTERY', 'QUIZZES', 'WHISKEY',
+    'AWKWARD', 'DWARVES', 'JACKPOT', 'JUKEBOX',
+    'KEYHOLE', 'MYSTERY', 'QUIZZES', 'WHISKEY',
   ];
 
   PUZZLES[12] = {
@@ -714,7 +726,7 @@ $(function () {
   showScene('preload');
 
   let audioRequest = new XMLHttpRequest();
-  audioRequest.open("GET", 'img/hbd.mp3', true);
+  audioRequest.open("GET", 'img/hbd-sliced.mp3', true);
   audioRequest.responseType = "arraybuffer";
   audioRequest.onload = function () {
     audioCtx.decodeAudioData(audioRequest.response, function (buffer) {
