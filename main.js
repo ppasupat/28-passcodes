@@ -23,17 +23,10 @@ $(function () {
   // ################################
   // Scenes
 
-  function showScene(name, noFade, callback) {
-    if (!noFade) {
-      $('#cover-fade').show().removeClass('faded');
-      setTimeout(function () {
-        $('#cover-fade').addClass('faded');
-        if (callback !== void 0) callback();
-      }, 50);
-    }
+  function showScene(name, callback) {
     $('.scene').hide();
     $('#scene-' + name).show();
-    if (noFade && callback !== void 0) callback();
+    if (callback !== void 0) callback();
   }
 
   function showCover(name, delay, callback) {
@@ -632,7 +625,7 @@ $(function () {
     img.src = x;
     images.push(img);
   });
-  showScene('preload', true);
+  showScene('preload');
 
   let audioRequest = new XMLHttpRequest();
   audioRequest.open("GET", 'img/m.ogg', true);

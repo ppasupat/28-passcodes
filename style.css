@@ -65,7 +65,7 @@ body {
 
 #game {
   position: relative;
-  background-color: #fff4ee;
+  background-color: black;
   width: 500px;
   height: 700px;
   overflow: hidden;
@@ -83,15 +83,12 @@ div.scene, div.cover {
   left: 0; top: 0;
 }
 
-#cover-fade {
-  background: black;
-  opacity: 1;
-  visibility: visible;
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-#cover-fade.faded {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 500ms, opacity 500ms;
+#scene-menu, #scene-puzzle {
+  animation: fade 600ms;
 }
 
 #cover-incorrect {
@@ -151,6 +148,10 @@ div.scene, div.cover {
 
 /* ################################ */
 /* puzzle scene */
+
+#scene-puzzle {
+  background-color: #fff4ee;
+}
 
 #pane-puzzle-screen {
   position: absolute;
