@@ -190,7 +190,7 @@ div.scene, div.cover {
   position: absolute;
   left: 0; top: 0; width: 100%; height: 100%;
   background: yellow;
-  animation: flash 600ms infinite alternate;
+  animation: flash 600ms linear 0ms infinite alternate;
 }
 .poster.completed .poster-flash {
   display: none;

@@ -42,7 +42,7 @@ $(function () {
 
   const APP_NAME = 'secret-code-28',
     DEFAULT_SETTINGS = JSON.stringify(
-      {completed: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]});
+      {completed: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]});
   let settings = {};
 
   function loadSettings() {
@@ -51,6 +51,11 @@ $(function () {
       settings_raw = DEFAULT_SETTINGS;
     }
     settings = JSON.parse(settings_raw);
+    // Handle the hidden level
+    settings.completed[13] = 0;
+    let sum = 0;
+    for (let i = 0; i < 13; i++) if (!!settings.completed[i]) sum++;
+    if (sum === 13) $('.poster[data-idx="13"]').show();
   }
 
   function saveSettings() {
@@ -644,6 +649,39 @@ $(function () {
     legends: [false, false],
   };
 
+  const THAI_KEYS = [
+    'ก', 'ข', 'ค', 'ง', 'จ', 'ฉ', 'ช',
+    'ด', 'ต', 'ถ', 'ท', 'น', 'บ', 'ป',
+    'ผ', 'ฝ', 'พ', 'ฟ', 'ม', 'ย', 'ร',
+    'ล', 'ว', 'ส', 'ห', 'อ',
+  ];
+
+  PUZZLES[13] = {
+    init: function () {
+      setKeys(THAI_KEYS); 
+      PUZZLE_SCREEN.append(
+        $('<div class=fill>')
+        .css('background', 'url("img/mystery-person.jpg")'));
+    },
+    onKey: function (key) {
+      // Alternative answers
+      if (key.attr('id') === KEY_SUBMIT_ID) {
+        let answer = getAnswer();
+        let sum = 0;
+        for (let i = 0; i < 7; i++) {
+          sum += (answer.charCodeAt(i) - 3585) * Math.pow(31, i);
+        }
+        if (sum % 280219 === 273794) {
+          showCover('correct', 1000, winPuzzle);
+          return true;
+        }
+      }
+      return false;
+    },
+    answer: null,   // Already checked in onKey above
+    legends: [false, false],
+  };
+
   // ################################
   // Menu
 
@@ -715,6 +753,7 @@ $(function () {
     'img/boom.png',
     'img/lava.png',
     'img/hangman.png',
+    //'img/mystery-person.jpg',
   ];
   let numResourcesLeft = imageList.length;
   numResourcesLeft++;   // Audio
