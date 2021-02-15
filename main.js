@@ -20,6 +20,12 @@ $(function () {
     return stuff;
   }
 
+  function gup(name) {
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    let results = regex.exec(window.location.href);
+    return results === null ? "" : decodeURIComponent(results[1]);
+  }
+
   // ################################
   // Scenes
 
@@ -655,13 +661,34 @@ $(function () {
     'ผ', 'ฝ', 'พ', 'ฟ', 'ม', 'ย', 'ร',
     'ล', 'ว', 'ส', 'ห', 'อ',
   ];
+  const P13_QUOTES = [
+    'พวกเราก็ไม่พอใจนะครับ<br>สำหรับ<br>บุคลากรทางการแพทย์ที่<br><strong>ไม่เฝ้าระวังตัวเอง</strong>',
+    'คนที่<br><strong>ไม่ใช่แพทย์</strong><br>ไม่ใช่ผู้เชี่ยวชาญ<br> ... <br>ขอให้<br><strong>สงบปากสงบคำ</strong><br>เพราะไม่เกิดประโยชน์',
+    'เชื้อโควิด<br><strong>กระจอกงอกง่อย</strong>',
+    'เห็นหน้าคนโพสต์<br>เลยเข้าใจแล้วว่า<br><strong>หมาไม่เข้าใจคนอ่ะ</strong>',
+    'ของขวัญปีใหม่ปีนี้<br>ถือเป็นครั้งแรกที่คนไทย<br>ทุกครอบครัว จะได้ทราบ<br><strong>ชื่อ เบอร์โทร</strong><br>และช่องทางให้คำปรึกษา<br>จากหมอประจำตัว<br><strong>3 คน</strong>',
+    '[ให้คะแนนตัวเอง]<br><strong>10 เต็ม 10 ครับ</strong>',
+  ];
+  const P13_INTERVAL = 3000;
 
   PUZZLES[13] = {
     init: function () {
       setKeys(THAI_KEYS); 
-      PUZZLE_SCREEN.append(
-        $('<div class=fill>')
-        .css('background', 'url("img/mystery-person.jpg")'));
+      let timestamp = Date.now();
+      let bg = $('<div id=p13-bg class=fill>').appendTo(PUZZLE_SCREEN);
+      $('<div id=p13-left>').appendTo(bg);
+      $('<div id=p13-right class=centerize>').appendTo(bg)
+        .append($('<div id=p13-quote>').data('ts', timestamp));
+      let quoteId = -1;
+      let updateQuote = function () {
+        quoteId++;
+        if (quoteId >= P13_QUOTES.length) quoteId = 0;
+        if ($('#p13-quote').length && $('#p13-quote').data('ts') == timestamp) {
+          $('#p13-quote').html(P13_QUOTES[quoteId]);
+          setTimeout(updateQuote, P13_INTERVAL);
+        }
+      };
+      updateQuote();
     },
     onKey: function (key) {
       // Alternative answers
@@ -671,7 +698,7 @@ $(function () {
         for (let i = 0; i < 7; i++) {
           sum += (answer.charCodeAt(i) - 3585) * Math.pow(31, i);
         }
-        if (sum % 280219 === 273794) {
+        if (sum % (+gup('passcode')) === 273794) {
           showCover('correct', 1000, winPuzzle);
           return true;
         }
@@ -737,27 +764,26 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
-    'img/menu.jpg',
-    'img/emoji/legends.png',
+    'img/boom.png',
+    'img/box.jpg',
     'img/emoji/1f6b2-parts.png',
-    'img/pigpen.jpg',
-    'img/middle.jpg',
+    'img/emoji/legends.png',
+    'img/emoji/pairs.png',
     'img/emoji/pets.png',
+    'img/hangman.png',
+    'img/lava.png',
+    'img/menu.jpg',
+    'img/middle.jpg',
     'img/mystery-animal.jpg',
     'img/mystery-location.jpg',
-    'img/emoji/pairs.png',
-    'img/wall.jpg',
-    'img/box.jpg',
-    'img/triple.jpg',
+    'img/mystery-person.jpg',
+    'img/paper_3_cyan.png',
+    'img/pigpen.jpg',
     'img/slices-v2.jpg',
-    'img/boom.png',
-    'img/lava.png',
-    'img/hangman.png',
-    //'img/mystery-person.jpg',
+    'img/triple.jpg',
+    'img/wall.jpg',
   ];
   let numResourcesLeft = imageList.length;
-  numResourcesLeft++;   // Audio
-  $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
 
   function decrementPreload () {
     numResourcesLeft--;
@@ -787,5 +813,8 @@ $(function () {
     });
   };
   audioRequest.send();
+  numResourcesLeft++;
+
+  $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
 
 });
