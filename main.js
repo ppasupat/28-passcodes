@@ -57,8 +57,7 @@ $(function () {
       settings_raw = DEFAULT_SETTINGS;
     }
     settings = JSON.parse(settings_raw);
-    // Handle the hidden level
-    settings.completed[13] = 0;
+    // Handle the bonus level
     let sum = 0;
     for (let i = 0; i < 13; i++) if (settings.completed[i] > 0) sum++;
     if (sum === 13) $('.poster[data-idx="13"]').show();
