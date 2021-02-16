@@ -60,7 +60,7 @@ $(function () {
     // Handle the hidden level
     settings.completed[13] = 0;
     let sum = 0;
-    for (let i = 0; i < 13; i++) if (!!settings.completed[i]) sum++;
+    for (let i = 0; i < 13; i++) if (settings.completed[i] > 0) sum++;
     if (sum === 13) $('.poster[data-idx="13"]').show();
   }
 
@@ -154,6 +154,7 @@ $(function () {
     PUZZLES[currentIdx].init();
     $('#legend-left').toggleClass('legend-on', PUZZLES[currentIdx].legends[0]);
     $('#legend-right').toggleClass('legend-on', PUZZLES[currentIdx].legends[1]);
+    showHintButton();
     checkKeys();
     showScene('puzzle');
   }
@@ -163,10 +164,39 @@ $(function () {
     stopSound();
   }
 
+  const HINT_THRESHOLD = -3;
+
+  function showHintButton() {
+    $('#hint-button').toggle(
+      settings.completed[currentIdx] <= HINT_THRESHOLD
+      && PUZZLES[currentIdx].hint !== void 0
+    );
+  }
+
+  $('#hint-button').click(function () {
+    let hint = PUZZLES[currentIdx].hint;
+    if (typeof hint === 'string' || hint instanceof String) {
+      alert(hint);
+    } else {    // Assume it's a callable
+      hint();
+    }
+  });
+
+  function failPuzzle(callback) {
+    showCover('incorrect', 500, function () {
+      if (callback !== void 0) callback();
+      settings.completed[currentIdx]--;
+      saveSettings();
+      showHintButton();
+    });
+  }
+
   function winPuzzle() {
-    settings.completed[currentIdx] = 1;
-    saveSettings();
-    setupMenu();
+    showCover('correct', 1000, function () {
+      settings.completed[currentIdx] = 1;
+      saveSettings();
+      setupMenu();
+    });
   }
 
   $('#back-button').click(setupMenu);
@@ -241,9 +271,9 @@ $(function () {
       answer = getAnswer(), firstBlankPos = getFirstBlankPos(answer);
     if (keyId === KEY_SUBMIT_ID) {
       if (answer === PUZZLES[currentIdx].answer) {
-        showCover('correct', 1000, winPuzzle);
+        winPuzzle();
       } else {
-        showCover('incorrect', 500);
+        failPuzzle();
       }
     } else if (keyId === KEY_BKSP_ID) {
       setAnswer(firstBlankPos - 1, '_');
@@ -305,6 +335,7 @@ $(function () {
     },
     answer: 'BICYCLE',
     legends: [true, false],
+    hint: "Press NEXT repeatedly and look at the background!",
   };
 
   PUZZLES[1] = {
@@ -315,6 +346,10 @@ $(function () {
     },
     answer: 'JACUZZI',
     legends: [false, false],
+    hint: function () {
+      alert('Search Google for "secret code"!');
+      window.open("https://www.google.com/search?tbm=isch&q=secret+code");
+    },
   };
 
   PUZZLES[2] = {
@@ -325,6 +360,7 @@ $(function () {
     },
     answer: 'MALLEUS',
     legends: [false, false],
+    hint: "I don't know, I'm not an ENT physician.",
   };
 
   const P3_GRID = [
@@ -359,6 +395,7 @@ $(function () {
     },
     answer: 'PENGUIN',
     legends: [true, false],
+    hint: "If you keep only the animals, another 7-letter animal will appear.",
   };
 
   PUZZLES[4] = {
@@ -369,6 +406,10 @@ $(function () {
     },
     answer: 'AXOLOTL',
     legends: [false, false],
+    hint: function () {
+      alert('Search Google for "that cute sea animal"!');
+      window.open("https://www.google.com/search?tbm=isch&q=that+cute+sea+animal");
+    },
   };
 
   // Code modified from https://github.com/ppasupat/pairs/
@@ -430,6 +471,7 @@ $(function () {
     },
     answer: 'AIRPORT',
     legends: [true, false],
+    hint: "Not all cards will match, but you only need to answer the 7-letter location name.",
   };
 
   PUZZLES[6] = {
@@ -453,7 +495,7 @@ $(function () {
       if (key.attr('id') === KEY_SUBMIT_ID) {
         let answer = getAnswer();
         if (answer === 'TAPUSAP' || answer === 'PATSUPA') {
-          showCover('correct', 1000, winPuzzle);
+          winPuzzle();
           stopSound();
           return true;
         }
@@ -462,6 +504,7 @@ $(function () {
     },
     answer: null,   // Already checked in onKey above
     legends: [true, false],
+    hint: "Make sure the audio is on! Lyrics: YOU TO DAYBIRTH PYHAP",
   };
 
   PUZZLES[7] = {
@@ -485,6 +528,10 @@ $(function () {
     },
     answer: 'RAINBOW',
     legends: [false, false],
+    hint: function () {
+      alert('Search Google for "anagram"!');
+      window.open("https://www.google.com/search?q=anagram");
+    },
   };
 
   PUZZLES[8] = {
@@ -495,6 +542,7 @@ $(function () {
     },
     answer: 'SOYBEAN',
     legends: [false, true],
+    hint: 'Look around the apartment!',
   };
 
   PUZZLES[9] = {
@@ -505,6 +553,7 @@ $(function () {
     },
     answer: 'AUTOPSY',
     legends: [false, true],
+    hint: 'Look around the apartment!',
   };
 
   PUZZLES[10] = {
@@ -526,9 +575,10 @@ $(function () {
     },
     answer: 'MAGICAL',
     legends: [true, true],
+    hint: 'Look around the apartment!',
   };
 
-  const P11_TIME_LIMIT = 8000, P11_MAGMA_TOP = 100, P11_MAGMA_HEIGHT = 220;
+  const P11_TIME_LIMIT = 7000, P11_MAGMA_TOP = 100, P11_MAGMA_HEIGHT = 220;
 
   PUZZLES[11] = {
     init: function () {
@@ -559,7 +609,7 @@ $(function () {
           return true;
         }, function () {
           $('#p11-lava').show();
-          showCover('incorrect', 500, that.reset.bind(that));
+          failPuzzle(that.reset.bind(that));
         });
     },
     checkKeys: function () {
@@ -584,7 +634,7 @@ $(function () {
         setAnswer(firstBlankPos, key.text());
         if (getAnswer() === this.answer) {
           $('#p11-magma').addClass('p11-won');
-          showCover('correct', 1000, winPuzzle);
+          winPuzzle();
         }
       }
       return true;
@@ -631,7 +681,7 @@ $(function () {
       return true;
     },
     onKey: function (key) {
-      let x = key.text(), found = false;
+      let that = this, x = key.text(), found = false;
       for (let i = 0; i < 7; i++) {
         if (this.answer.charAt(i) === x) {
           setAnswer(i, x);
@@ -644,15 +694,16 @@ $(function () {
         $('#p12-hangman').css(
           'background-position-x', ((livesLeft + 1) * 300) + 'px');
         if (this.used.length === P12_LIVES) {
-          showCover('incorrect', 500, this.reset.bind(this));
+          failPuzzle(that.reset.bind(that));
         }
       }
       if (getAnswer().search('_') === -1) {
-        showCover('correct', 1000, winPuzzle);
+        winPuzzle();
       }
       return true;
     },
     legends: [false, false],
+    hint: "There are only 8 possible words. Try remembering the vowel patterns.",
   };
 
   const THAI_KEYS = [
@@ -699,7 +750,7 @@ $(function () {
           sum += (answer.charCodeAt(i) - 3585) * Math.pow(31, i);
         }
         if (sum % (+gup('passcode')) === 273794) {
-          showCover('correct', 1000, winPuzzle);
+          winPuzzle();
           return true;
         }
       }
@@ -707,6 +758,7 @@ $(function () {
     },
     answer: null,   // Already checked in onKey above
     legends: [false, false],
+    hint: 'Note: This bonus puzzle is impossible to win without a correct URL passcode.',
   };
 
   // ################################
@@ -714,10 +766,11 @@ $(function () {
 
   function setupMenu() {
     clearPuzzleScreen();
+    currentIdx = null;
     let numCompleted = 0;
     $('.poster').each(function (i, x) {
       let idx = +$(x).data('idx');
-      if (!!settings.completed[idx]) {
+      if (settings.completed[idx] > 0) {
         $(x).addClass('completed');
         numCompleted++;
       } else {
@@ -736,7 +789,7 @@ $(function () {
   $('#reset-button').click(resetSettings);
   $('.poster').click(function (e) {
     let x = $(this), idx = +x.data('idx');
-    if (!!settings.completed[idx]) return;
+    if (settings.completed[idx] > 0) return;
     if (PUZZLES[idx] === void 0) {
       alert('Puzzle not here yet!');
     } else {

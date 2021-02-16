@@ -353,6 +353,10 @@ div.scene, div.cover {
 .legend.legend-box { background-position-y: 36px; }
 .legend.legend-on { background-position-x: 36px; }
 
+#hint-button {
+  position: absolute; left: 200px; top: 5px; width: 100px;
+}
+
 /* ################################ */
 /* actual puzzles */
 
