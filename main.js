@@ -538,7 +538,7 @@ $(function () {
     },
     answer: 'SOYBEAN',
     legends: [false, true],
-    hint: 'Look around the apartment!',
+    hint: 'Look around the apartment! 🙃',
   };
 
   PUZZLES[9] = {
