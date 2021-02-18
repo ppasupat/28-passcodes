@@ -341,14 +341,11 @@ $(function () {
     init: function () {
       PUZZLE_SCREEN.append(
         $('<div class=fill>')
-        .css('background', 'url("img/pigpen.jpg")'));
+        .css('background', 'url("img/caesar.png")'));
     },
-    answer: 'JACUZZI',
+    answer: 'COMPLEX',
     legends: [false, false],
-    hint: function () {
-      alert('Search Google for "secret code"!');
-      window.open("https://www.google.com/search?tbm=isch&q=secret+code");
-    },
+    hint: 'O -> L, P -> M, Q -> N, ...',
   };
 
   PUZZLES[2] = {
@@ -818,6 +815,7 @@ $(function () {
   const imageList = [
     'img/boom.png',
     'img/box.jpg',
+    'img/caesar.png',
     'img/emoji/1f6b2-parts.png',
     'img/emoji/legends.png',
     'img/emoji/pairs.png',
@@ -830,7 +828,6 @@ $(function () {
     'img/mystery-location.jpg',
     'img/mystery-person.jpg',
     'img/paper_3_cyan.png',
-    'img/pigpen.jpg',
     'img/slices-v2.jpg',
     'img/triple.jpg',
     'img/wall.jpg',
