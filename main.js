@@ -574,7 +574,7 @@ $(function () {
     hint: 'Look around the apartment!',
   };
 
-  const P11_TIME_LIMIT = 7000, P11_MAGMA_TOP = 100, P11_MAGMA_HEIGHT = 220;
+  const P11_TIME_LIMIT = 8000, P11_MAGMA_TOP = 100, P11_MAGMA_HEIGHT = 220;
 
   PUZZLES[11] = {
     init: function () {
@@ -641,8 +641,7 @@ $(function () {
 
   const P12_LIVES = 9;
   const P12_WORDS = [
-    'AWKWARD', 'DWARVES', 'JACKPOT', 'JUKEBOX',
-    'KEYHOLE', 'MYSTERY', 'QUIZZES', 'WHISKEY',
+    'JACKPOT', 'JANUARY', 'JUKEBOX',
   ];
 
   PUZZLES[12] = {
@@ -699,7 +698,7 @@ $(function () {
       return true;
     },
     legends: [false, false],
-    hint: "There are only 8 possible words. Try remembering the vowel patterns.",
+    hint: "There are only 3 possible words. All of them begin with J.",
   };
 
   const THAI_KEYS = [
