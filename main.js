@@ -163,7 +163,7 @@ $(function () {
     stopSound();
   }
 
-  const HINT_THRESHOLD = -3;
+  const HINT_THRESHOLD = -2;
 
   function showHintButton() {
     $('#hint-button').toggle(
@@ -333,7 +333,7 @@ $(function () {
         });
     },
     answer: 'BICYCLE',
-    legends: [true, false],
+    legends: [false, false],
     hint: "Press NEXT repeatedly and look at the background!",
   };
 
@@ -500,7 +500,7 @@ $(function () {
     },
     answer: null,   // Already checked in onKey above
     legends: [true, false],
-    hint: "Make sure the audio is on! Lyrics: YOU TO DAYBIRTH PYHAP",
+    hint: "Make sure the audio is on! The lyrics are YOU TO DAYBIRTH PYHAP, not HAPPY BIRTHDAY TO YOU.",
   };
 
   PUZZLES[7] = {
@@ -538,7 +538,7 @@ $(function () {
     },
     answer: 'SOYBEAN',
     legends: [false, true],
-    hint: 'Look around the apartment! 🙃',
+    hint: 'Look around the apartment!',
   };
 
   PUZZLES[9] = {
