@@ -372,9 +372,9 @@ div.scene, div.cover {
 .p0-slide {
   text-align: center;
 }
-.p0-slide:nth-child(1) { background: #3a3a3a; color: #eee; }
-.p0-slide:nth-child(2) { background: #ff8585; color: #fee; }
-.p0-slide:nth-child(3) { background: #d2d2d2; color: #005; }
+.p0-slide:nth-child(1) { background: #555; color: #eee; }
+.p0-slide:nth-child(2) { background: #f99; color: #225; }
+.p0-slide:nth-child(3) { background: #ddd; color: #050; }
 
 .p0-slide .p0-header {
   font-size: 300%;
@@ -399,7 +399,7 @@ div.scene, div.cover {
 
 .p0-hint {
   position: absolute;
-  left: 113px; top: 92px;
+  left: 113px; top: 132px;
   width: 224px; height: 158px;
   background: url('img/emoji/1f6b2-parts.png');
 }
